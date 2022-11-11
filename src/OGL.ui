@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OGL</class>
+ <widget class="QMainWindow" name="OGL">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>940</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>OGL</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QOpenGLWidget" name="openGLWidget">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1280</width>
+      <height>480</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="Param_GroupBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>490</y>
+      <width>1280</width>
+      <height>440</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QGroupBox" name="ModelParam_GroupBox">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>220</y>
+       <width>180</width>
+       <height>220</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Model</string>
+     </property>
+     <widget class="QDoubleSpinBox" name="Model_AngleX_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Model_AngleX_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>30</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleX</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Model_AngleY_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>60</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleY</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Model_AngleY_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Model_AngleZ_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>90</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleZ</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Model_AngleZ_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Model_TY_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>150</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TY</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Model_TZ_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>180</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TZ</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Model_TX_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>120</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TX</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Model_TX_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>120</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Model_TY_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>150</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Model_TZ_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>180</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="CameraParam_GroupBox">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>180</width>
+       <height>220</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Camera</string>
+     </property>
+     <widget class="QLabel" name="Camera_AngleY_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>60</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleY</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Camera_TX_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>120</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TX</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Camera_TZ_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>180</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Camera_AngleZ_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>90</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleZ</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Camera_TY_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>150</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Camera_TY_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>150</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TY</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Camera_AngleX_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>30</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleX</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Camera_TZ_Label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>180</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TZ</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Camera_AngleX_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Camera_AngleY_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Camera_AngleZ_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Camera_TX_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>120</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
