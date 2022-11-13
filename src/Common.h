@@ -275,4 +275,10 @@ namespace DarkerOGL {
 	};
 }
 
+namespace DarkerOGL {
+
+std::string FloatToString(float value);
+
+}
+
 #endif

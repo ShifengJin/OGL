@@ -27,8 +27,19 @@ public slots:
     void ModelTYDoubleSpinBoxChanged(double value);
     void ModelTZDoubleSpinBoxChanged(double value);
 
+
+
 public:
     void resizeEvent(QResizeEvent *event);
+
+private:
+    void SetLabelMatrix(QLabel* label, float matrix[16]);
+
+    void InitConnect();
+    void UnitConnect();
+    void SetLayoutParameter();
+
+
 private:
     int parameter_width = 0;
     int parameter_height = 0;
