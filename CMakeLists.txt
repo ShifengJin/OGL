@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5) # CMake install : https://cmake.org/download
 project(OGL LANGUAGES CXX)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_PREFIX_PATH "/home/jsf/Qt5.12.12/5.12.12/gcc_64") # Qt Kit Dir
+set(CMAKE_PREFIX_PATH "/home/alva/Qt5.14.2/5.14.2/gcc_64") # Qt Kit Dir
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
