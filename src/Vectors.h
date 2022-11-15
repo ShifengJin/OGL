@@ -278,6 +278,11 @@ namespace Darker{
     template<typename T>
     class Vector4;
 
+    template<typename T>
+    std::ostream& operator<<(std::ostream& os, const Vector4<T>& vec){
+        os << "[" << vec.X() << ", " << vec.Y() << ", " << vec.Z() << ", " << vec.W() << "]";
+    }
+
 	template<typename T>
 	class Vector4 {
 	public:
@@ -296,7 +301,110 @@ namespace Darker{
 			data[3] = v4.data[3];
 		}
 
+        T Length() const {
+            return (T)(sqrt(data[0] * data[0] + data[1] * data[1] + data[2] * data[2] + data[3] * data[3]));
+        }
 
+        T Distance(const Vector4<T>& vec) const {
+            T dx = data[0] - vec.data[0];
+            T dy = data[1] - vec.data[1];
+            T dz = data[2] - vec.data[2];
+            T dw = data[3] - vec.data[3];
+            return (T)(sqrt(dx * dx + dy * dy + dz * dz + dw * dw));
+        }
+
+        Vector4<T>& Normalize() {
+            //NOTE: leave w-component untouched
+            T xxyyzz = data[0] * data[0] + data[1] * data[1] + data[2] * data[2];
+            T invLength = (T)(1. / sqrt(xxyyzz));
+            data[0] *= invLength;
+            data[1] *= invLength;
+            data[2] *= invLength;
+            return *this;
+        }
+
+        T Vector4<T> Dot(const Vector4<T>& rhs) const {
+            return (data[0] * rhs.data[0] + data[1] * rhs.data[1] + data[2] * rhs.data[2] + data[3] * rhs.data[3]);
+        }
+
+        bool Equal(const Vector4<T>& rhs, T epsilon) const {
+            return (fabs(data[0] - rhs.data[0]) < epsilon) && (fabs(data[1] - rhs.data[1]) < epsilon) &&
+                   (fabs(data[2] - rhs.data[2]) < epsilon) && (fabs(data[3] - rhs.data[3]) < epsilon);
+        }
+        
+        Vector4<T> operator-() const {
+            return Vector4<T>(-data[0], -data[1], -data[2], -data[3]);
+        }
+
+        Vector4<T> operator+(const Vector4<T>& rhs) const {
+            return Vector4<T>(data[0] + rhs.data[0], data[1] + rhs.data[1], data[2] + rhs.data[2], data[3] + rhs.data[3]);
+        }
+
+        Vector4<T> operator-(const Vector4<T>& rhs) const {
+            return Vector4<T>(data[0] - rhs.data[0], data[1] - rhs.data[1], data[2] - rhs.data[2], data[3] - rhs.data[3]);
+        }
+
+        Vector4<T>& operator+=(const Vector4<T>& rhs) {
+            data[0] += rhs.data[0];
+            data[1] += rhs.data[1];
+            data[2] += rhs.data[2];
+            data[3] += rhs.data[3];
+            return *this;
+        }
+
+        Vector4<T>& operator-=(const Vector4<T>& rhs){
+            data[0] -= rhs.data[0];
+            data[1] -= rhs.data[1];
+            data[2] -= rhs.data[2];
+            data[3] -= rhs.data[3];
+            return *this;
+        }
+
+        Vector4<T> operator*(const T scale) const {
+            return Vector4<T>(scale * data[0], scale * data[1], scale * data[2], scale * data[3]);
+        }
+
+        Vector4<T> operator*(const Vector4<T>& rhs) const {
+            return Vector4<T>(data[0] * rhs.data[0], data[1] * rhs.data[1], data[2] * rhs.data[2], data[3] * rhs.data[3]);
+        }
+
+        Vector4<T>& operator*=(const T scale) {
+            data[0] *= scale;
+            data[1] *= scale;
+            data[2] *= scale;
+            data[3] *= scale;
+            return *this;
+        }
+
+        Vector4<T>& operator*=(const Vector4<T>& rhs) {
+            data[0] *= rhs.data[0];
+            data[1] *= rhs.data[1];
+            data[2] *= rhs.data[2];
+            data[3] *= rhs.data[3];
+            return *this;
+        }
+
+        Vector4<T> operator/(const T a) const {
+            return Vector4<T>(data[0] / a, data[1] / a, data[2] / a, data[3] / a);
+        }
+
+        Vector4<T>& operator/(const T a) {
+            data[0] /= a;
+            data[1] /= a;
+            data[2] /= a;
+            data[3] /= a;
+            return *this;
+        }
+
+        bool operator==(const Vector4<T>& rhs) const {
+            return (data[0] == rhs.data[0]) && (data[1] == rhs.data[1]) && (data[2] == rhs.data[2]) && (data[3] == rhs.data[3]);
+        }
+
+        bool operator!=(const Vector4<T>& rhs) const {
+            return (data[0] != rhs.data[0]) || (data[1] != rhs.data[1]) || (data[2] != rhs.data[2]) || (data[3] != rhs.data[3]);
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const Vector4<T>& vec);
 
 		T X() { return data[0]; }
 		T Y() { return data[1]; }
@@ -310,10 +418,6 @@ namespace Darker{
 	public:
 		T data[4];		
 	};
-
-
-
-
 
 }
 
