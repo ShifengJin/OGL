@@ -174,6 +174,7 @@ public:
                data[2] * (data[3] * data[7] - data[4] * data[6]);
     }
 
+#if 0
     // retrieve angles in degree from rotation matrix, M = Rx*Ry*Rz
     // Rx: rotation about X-axis, pitch
     // Ry: rotation about Y-axis, yaw(heading)
@@ -212,6 +213,7 @@ public:
         }
         return Vector3<T>(pitch, yaw, roll);
     }
+#endif
 
     Matrix3<T>& Identity() {
         data[0] = data[4] = data[8] = (T)1.;
@@ -234,7 +236,86 @@ public:
         return *this;
     }
 
-    
+    ///////////////////////////////////////////////////////////////////////////////
+    // inverse 3x3 matrix
+    // If cannot find inverse (det=0), set identity matrix
+    // M^-1 = adj(M) / det(M)
+    //        | m4m8-m5m7  m5m6-m3m8  m3m7-m4m6 |
+    //      = | m7m2-m8m1  m0m8-m2m6  m6m1-m7m0 | / det(M)
+    //        | m1m5-m2m4  m2m3-m0m5  m0m4-m1m3 |
+    ///////////////////////////////////////////////////////////////////////////////
+    Matrix3<T>& Invert() {
+        T determinant, invDeterminant;
+        T tmp[9];
+        tmp[0] = data[4] * data[8] - data[5] * data[7];
+        tmp[1] = data[5] * data[6] - data[3] * data[8];
+        tmp[2] = data[3] * data[7] - data[4] * data[6];
+        tmp[3] = data[7] * data[2] - data[8] * data[1];
+        tmp[4] = data[0] * data[8] - data[2] * data[6];
+        tmp[5] = data[6] * data[1] - data[7] * data[0];
+        tmp[6] = data[1] * data[5] - data[2] * data[4];
+        tmp[7] = data[2] * data[3] - data[0] * data[5];
+        tmp[8] = data[0] * data[4] - data[1] * data[3];
+
+        determinant = data[0] * tmp[0] + data[1] * tmp[1] + data[2] * tmp[2];
+        if(fabs(determinant) <= EPSILON){
+            return Identity();
+        }
+
+        invDeterminant = T(1. / determinant);
+
+        data[0] = invDeterminant * tmp[0];
+        data[1] = invDeterminant * tmp[1];
+        data[2] = invDeterminant * tmp[2];
+        data[3] = invDeterminant * tmp[3];
+        data[4] = invDeterminant * tmp[4];
+        data[5] = invDeterminant * tmp[5];
+        data[6] = invDeterminant * tmp[6];
+        data[7] = invDeterminant * tmp[7];
+        data[8] = invDeterminant * tmp[8];
+
+        return *this;
+    }
+
+    Matrix3<T> operator+(const Matrix3<T>& rhs) const {
+        return Matrix3<T>(data[0] + rhs.data[0], data[1] + rhs.data[1], data[2] + rhs.data[2],
+                          data[3] + rhs.data[3], data[4] + rhs.data[4], data[5] + rhs.data[5],
+                          data[6] + rhs.data[6], data[7] + rhs.data[7], data[8] + rhs.data[8]);
+    }
+
+    Matrix3<T> operator-(const Matrix3<T>& rhs) const {
+        return Matrix3<T>(data[0] - rhs.data[0], data[1] - rhs.data[1], data[2] - rhs.data[2],
+                          data[3] - rhs.data[3], data[4] - rhs.data[4], data[5] - rhs.data[5],
+                          data[6] - rhs.data[6], data[7] - rhs.data[7], data[8] - rhs.data[8]);
+    }
+
+    Matrix3<T>& operator+=(const Matrix3<T>& rhs) {
+        data[0] += rhs.data[0]; data[1] += rhs.data[1]; data[2] += rhs.data[2];
+        data[3] += rhs.data[3]; data[4] += rhs.data[4]; data[5] += rhs.data[5];
+        data[6] += rhs.data[6]; data[7] += rhs.data[7]; data[8] += rhs.data[8];
+        return *this;
+    }
+
+    Matrix3<T>& operator-=(const Matrix3<T>& rhs) {
+        data[0] -= rhs.data[0]; data[1] -= rhs.data[1]; data[2] -= rhs.data[2];
+        data[3] -= rhs.data[3]; data[4] -= rhs.data[4]; data[5] -= rhs.data[5];
+        data[6] -= rhs.data[6]; data[7] -= rhs.data[7]; data[8] -= rhs.data[8];
+        return *this;
+    }
+
+    Vector3<T> operator*(const Vector3<T>& rhs) const {
+        return Vector3<T>(data[0] * rhs.data[0] + data[1] * rhs.data[1] + data[2] * rhs.data[2],
+                          data[3] * rhs.data[0] + data[4] * rhs.data[1] + data[5] * rhs.data[2],
+                          data[6] * rhs.data[0] + data[7] * rhs.data[1] + data[8] * rhs.data[2]);
+    }
+
+    Matrix3<T> operator*(const Matrix3<T>& rhs) const {
+        return Matrix3<T>();
+    }
+
+    Matrix3<T>& operator*=(const Matrix3<T>& rhs) {
+
+    }
 
 public:
     T data[9];
