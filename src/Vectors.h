@@ -29,6 +29,11 @@ namespace Darker{
 			data[1] = v2.data[1];
 		}
 
+        void Set(T x, T y) {
+            data[0] = x;
+            data[1] = y;
+        }
+
         T Length() const {
 			return (T)(sqrt(data[0] * data[0] + data[1] * data[1]));
 		}
@@ -151,6 +156,12 @@ namespace Darker{
 			data[1] = v3.data[1];
 			data[2] = v3.data[2];
 		}
+
+        void Set(T x, T y, T z) {
+            data[0] = x;
+            data[1] = y;
+            data[2] = z;
+        }
 
         T Length() {
 			return (T)(sqrt(data[0] * data[0] + data[1] * data[1] + data[2] *data[2]));
@@ -300,6 +311,13 @@ namespace Darker{
 			data[2] = v4.data[2];
 			data[3] = v4.data[3];
 		}
+
+        void Set(T x, T y, T z, T w){
+            data[0] = x;
+            data[1] = y;
+            data[2] = z;
+            data[3] = w;
+        }
 
         T Length() const {
             return (T)(sqrt(data[0] * data[0] + data[1] * data[1] + data[2] * data[2] + data[3] * data[3]));

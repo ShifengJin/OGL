@@ -34,6 +34,36 @@ public:
         data[2] = m2x2.data[2]; data[3] = m2x2.data[3];
     }
 
+    void Set(const T src[4]) {
+        data[0] = src[0]; data[1] = src[1];
+        data[2] = src[2]; data[3] = src[3];
+    }
+
+    void Set(T m00, T m01, T m10, T m11) {
+        data[0] = m00; data[1] = m01;
+        data[2] = m10; data[3] = m11;
+    }
+
+    void SetRow(int index, const T row[2]) {
+        data[index * 2 + 0] = row[0];
+        data[index * 2 + 1] = row[1];
+    }
+
+    void SetRow(int index, const Vector2<T>& v) {
+        data[index * 2 + 0] = v.X();
+        data[index * 2 + 1] = v.Y();
+    }
+
+    void SetColumn(int index, const T col[2]) {
+        data[index] = col[0];
+        data[2 + index] = col[1];
+    }
+
+    void SetColumn(int index, const Vector2<T>& v){
+        data[index] = v.X();
+        data[2 + index] = v.Y();
+    }
+
     T GetDeterminant() const {
         return (T)(data[0] * data[3] - data[1] * data[2]);
     }
@@ -181,10 +211,46 @@ public:
         data[6] = src[6]; data[7] = src[7]; data[8] = src[8];
     }
 
-    Matrix3(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22){
+    Matrix3(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22) {
         data[0] = m00; data[1] = m01; data[2] = m02;
         data[3] = m10; data[4] = m11; data[5] = m12;
         data[6] = m20; data[7] = m21; data[8] = m22;
+    }
+
+    void Set(const T src[9]) {
+        data[0] = src[0]; data[1] = src[1]; data[2] = src[2];
+        data[3] = src[3]; data[4] = src[4]; data[5] = src[5];
+        data[6] = src[6]; data[7] = src[7]; data[8] = src[8];
+    }
+
+    void Set(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22) {
+        data[0] = m00; data[1] = m01; data[2] = m02;
+        data[3] = m10; data[4] = m11; data[5] = m12;
+        data[6] = m20; data[7] = m21; data[8] = m22;
+    }
+
+    void SetRow(int index, const T row[3]) {
+        data[index * 3 + 0] = row[0];
+        data[index * 3 + 1] = row[1];
+        data[index * 3 + 2] = row[2];
+    }
+
+    void SetRow(int index, const Vector3<T>& v) {
+        data[index * 3 + 0] = v.X();
+        data[index * 3 + 1] = v.Y();
+        data[index * 3 + 2] = v.Z();
+    }
+
+    void SetColumn(int index, const T col[3]) {
+        data[index    ] = col[0];
+        data[index + 3] = col[1];
+        data[index + 6] = col[2];
+    }
+
+    void SetColumn(int index, const Vector3<T>& v) {
+        data[index    ] = v.X();
+        data[index + 3] = v.Y();
+        data[index + 6] = v.Z();
     }
 
     Matrix3(const Matrix3<T>& m3x3) {
@@ -444,6 +510,63 @@ public:
         data[12] = m30; data[13] = m31, data[14] = m32, data[15] = m33;
     }
 
+    void Set(const T src[16]) {
+        data[0 ] = src[0 ]; data[1 ] = src[1 ]; data[2 ] = src[2 ]; data[3 ] = src[3 ];
+        data[4 ] = src[4 ]; data[5 ] = src[5 ]; data[6 ] = src[6 ]; data[7 ] = src[7 ];
+        data[8 ] = src[8 ]; data[9 ] = src[9 ]; data[10] = src[10]; data[11] = src[11];
+        data[12] = src[12]; data[13] = src[13]; data[14] = src[14]; data[15] = src[15];
+    }
+
+    void Set(T m00, T m01, T m02, T m03,
+            T m10, T m11, T m12, T m13,
+            T m20, T m21, T m22, T m23,
+            T m30, T m31, T m32, T m33) {
+        data[0 ] = m00; data[1 ] = m01, data[2 ] = m02, data[3 ] = m03;
+        data[4 ] = m10; data[5 ] = m11, data[6 ] = m12, data[7 ] = m13;
+        data[8 ] = m20; data[9 ] = m21, data[10] = m22, data[11] = m23;
+        data[12] = m30; data[13] = m31, data[14] = m32, data[15] = m33;
+    }
+
+    void SetRow(int index, const T row[4]) {
+        data[index * 4 + 0] = row[0];
+        data[index * 4 + 1] = row[1];
+        data[index * 4 + 2] = row[2];
+        data[index * 4 + 3] = row[3];
+    }
+
+    void SetRow(int index, const Vector4<T>& v) {
+        data[index * 4 + 0] = v.X();
+        data[index * 4 + 1] = v.Y();
+        data[index * 4 + 2] = v.Z();
+        data[index * 4 + 3] = v.W();
+    }
+
+    void SetRow(int index, const Vector3<T>& v) {
+        data[index * 4 + 0] = v.X();
+        data[index * 4 + 1] = v.Y();
+        data[index * 4 + 2] = v.Z();
+    }
+
+    void SetColumn(int index, const T col[4]) {
+        data[index     ] = col[0];
+        data[index + 4 ] = col[1];
+        data[index + 8 ] = col[2];
+        data[index + 12] = col[3];
+    }
+
+    void SetColumn(int index, const Vector4<T>& v) {
+        data[index     ] = v.X();
+        data[index + 4 ] = v.Y();
+        data[index + 8 ] = v.Z();
+        data[index + 12] = v.W();
+    }
+
+    void SetColumn(int index, const Vector3<T>& v) {
+        data[index     ] = v.X();
+        data[index + 4 ] = v.Y();
+        data[index + 8 ] = v.Z();
+    }
+
     // m0   m1   m2   m3
     // m4   m5   m6   m7
     // m8   m9   m10  m11
@@ -692,16 +815,226 @@ public:
     /// @param angle 
     /// @return 
     Matrix4<T>& RotateX(T angle) {
+        T c = (T)(cos(angle * DEG2RAD));
+        T s = (T)(sin(angle * DEG2RAD));
+        T m10 = data[4], m11 = data[5], m12 = data[6], m13 = data[7];
+        T m20 = data[8], m21 = data[9], m22 = data[10], m23 = data[11];
 
+        data[4] = c * m10 + -s * m20;
+        data[5] = c * m11 + -s * m21;
+        data[6] = c * m12 + -s * m22;
+        data[7] = c * m13 + -s * m23;
+
+        data[8 ] = s * m10 + c * m20;
+        data[9 ] = s * m11 + c * m21;
+        data[10] = s * m12 + c * m22;
+        data[11] = s * m13 + c * m23;
+
+        return *this;
     }
 
     Matrix4<T>& RotateY(T angle) {
-        
+        T c = (T)(cos(angle * DEG2RAD));
+        T s = (T)(sin(angle * DEG2RAD));
+
+        T m00 = data[0], m01 = data[1], m02 = data[2], m03 = data[3];
+        T m20 = data[8], m21 = data[9], m22 = data[10], m23 = data[11];
+
+        data[0] = c * m00 + s * m20;
+        data[1] = c * m01 + s * m21;
+        data[2] = c * m02 + s * m22;
+        data[3] = c * m03 + s * m23;
+
+        data[8 ] = -s * m00 + c * m20;
+        data[9 ] = -s * m01 + c * m21;
+        data[10] = -s * m02 + c * m22;
+        data[11] = -s * m03 + c * m23;
+
+        return *this;
     }
 
     Matrix4<T>& RotateZ(T angle) {
+        T c = (T)(cos(angle * DEG2RAD));
+        T s = (T)(sin(angle * DEG2RAD));
+
+        T m00 = data[0], m01 = data[1], m02 = data[2], m03 = data[3];
+        T m10 = data[4], m11 = data[5], m12 = data[6], m13 = data[7];
+
+        data[0] = c * m00 + -s * m10;
+        data[1] = c * m01 + -s * m11;
+        data[2] = c * m02 + -s * m12;
+        data[3] = c * m03 + -s * m13;
+
+        data[4] = s * m00 + c * m10;
+        data[5] = s * m01 + c * m11;
+        data[6] = s * m02 + c * m12;
+        data[7] = s * m03 + c * m13;
         
+        return *this;
     }
+
+    Matrix4<T>& Scale(T s) {
+        return Scale(s, s, s);
+    }
+
+    Matrix4<T>& Scale(T x, T y, T z) {
+        data[0] *= x; data[1] *= x; data[2] *= x; data[3] *= x;
+        data[4] *= y; data[5] *= y; data[6] *= y; data[7] *= y;
+        data[8] *= z; data[9] *= z; data[10]*= z; data[11]*= z;
+        return *this;
+    }
+
+    Matrix4<T>& LookAt(T tx, T ty, T tz) {
+        return LookAt(Vector3<T>(tx, ty, tz));
+    }
+
+    Matrix4<T>& LookAt(T tx, T ty, T tz, T ux, T uy, T uz) {
+        return LookAt(Vector3<T>(tx, ty, tz), Vector3<T>(ux, uy, uz));
+    }
+
+    Matrix4<T>& LookAt(const Vector3<T>& target) {
+        Vector3<T> position = Vector3<T>(data[3], data[7], data[11]);
+        Vector3<T> forward = target - position;
+        forward.Normalize();
+        Vector3<T> up;
+        Vector3<T> left;
+        
+        if(fabs(forward.X() < EPSILON && fabs(forward.Z() < EPSILON))){
+            if(forward.Y() > 0){
+                up.Set((T)0., (T)0., (T)-1.);
+            }else{
+                up.Set((T)0., (T)0., (T)1.);
+            }
+        }else {
+            up.Set((T)0., (T)1., (T0.);
+        }
+
+        left = up.Cross(forward);
+        left.Normalize();
+
+        up = forward.Cross(left);
+        up.Normalize();
+        
+        this->SetColumn(0, left);
+        this->SetColumn(1, up);
+        this->SetColumn(2, forward);
+        return *this;
+    }
+
+    Matrix4<T>& LookAt(const Vector3<T>& target, const Vector3<T>& upVec) {
+        Vector3<T> position = Vector3<T>(data[3], data[7], data[11]);
+        Vector3<T> forward = target - position;
+        forward.Normalize();
+
+        Vector3<T> left = upVec.Cross(forward);
+        left.Normalize();
+
+        Vector3<T> up = forward.Cross(left);
+        up.Normalize();
+        
+        this->SetColumn(0, left);
+        this->SetColumn(1, up);
+        this->SetColumn(2, forward);
+        return *this;
+    }
+
+    Matrix4<T> operator+(const Matrix4<T>& rhs) const {
+        return Matrix4<T>(
+            data[0 ] + rhs.data[0 ], data[1 ] + rhs.data[1 ], data[2 ] + rhs.data[2 ], data[3 ] + rhs.data[3 ],
+            data[4 ] + rhs.data[4 ], data[5 ] + rhs.data[5 ], data[6 ] + rhs.data[6 ], data[7 ] + rhs.data[7 ],
+            data[8 ] + rhs.data[8 ], data[9 ] + rhs.data[9 ], data[10] + rhs.data[10], data[11] + rhs.data[11],
+            data[12] + rhs.data[12], data[13] + rhs.data[13], data[14] + rhs.data[14], data[15] + rhs.data[15]);
+    }
+
+    Matrix4<T> operator-(const Matrix4<T>& rhs) const {
+        return Matrix4<T>(
+            data[0 ] - rhs.data[0 ], data[1 ] - rhs.data[1 ], data[2 ] - rhs.data[2 ], data[3 ] - rhs.data[3 ],
+            data[4 ] - rhs.data[4 ], data[5 ] - rhs.data[5 ], data[6 ] - rhs.data[6 ], data[7 ] - rhs.data[7 ],
+            data[8 ] - rhs.data[8 ], data[9 ] - rhs.data[9 ], data[10] - rhs.data[10], data[11] - rhs.data[11],
+            data[12] - rhs.data[12], data[13] - rhs.data[13], data[14] - rhs.data[14], data[15] - rhs.data[15]);
+    }
+
+    Matrix4<T>& operator+=(const Matrix4<T>& rhs) {
+        data[0 ] += rhs.data[0 ]; data[1 ] += rhs.data[1 ]; data[2 ] += rhs.data[2 ]; data[3 ] += rhs.data[3 ];
+        data[4 ] += rhs.data[4 ]; data[5 ] += rhs.data[5 ]; data[6 ] += rhs.data[6 ]; data[7 ] += rhs.data[7 ];
+        data[8 ] += rhs.data[8 ]; data[9 ] += rhs.data[9 ]; data[10] += rhs.data[10]; data[11] += rhs.data[11];
+        data[12] += rhs.data[12]; data[13] += rhs.data[13]; data[14] += rhs.data[14]; data[15] += rhs.data[15];
+        return *this;
+    }
+
+    Matrix4<T>& operator-=(const Matrix4<T>& rhs) {
+        data[0 ] -= rhs.data[0 ]; data[1 ] -= rhs.data[1 ]; data[2 ] -= rhs.data[2 ]; data[3 ] -= rhs.data[3 ];
+        data[4 ] -= rhs.data[4 ]; data[5 ] -= rhs.data[5 ]; data[6 ] -= rhs.data[6 ]; data[7 ] -= rhs.data[7 ];
+        data[8 ] -= rhs.data[8 ]; data[9 ] -= rhs.data[9 ]; data[10] -= rhs.data[10]; data[11] -= rhs.data[11];
+        data[12] -= rhs.data[12]; data[13] -= rhs.data[13]; data[14] -= rhs.data[14]; data[15] -= rhs.data[15];
+        return *this;
+    }
+
+    Vector4<T> operator*(const Vector4<T>& rhs) const {
+        return Vector4<T>(
+            data[0 ]  * rhs.X() + data[1 ] * rhs.Y() + data[2 ] * rhs.Z() + data[3 ] * rhs.W(),
+            data[4 ]  * rhs.X() + data[5 ] * rhs.Y() + data[6 ] * rhs.Z() + data[7 ] * rhs.W(),
+            data[8 ]  * rhs.X() + data[9 ] * rhs.Y() + data[10] * rhs.Z() + data[11] * rhs.W(),
+            data[12]  * rhs.X() + data[13] * rhs.Y() + data[14] * rhs.Z() + data[15] * rhs.W(),
+        );
+    }
+
+    Vector3<T> operator*(const Vector3<T>& rhs) const {
+        return Vector3<T>(
+            data[0 ]  * rhs.X() + data[1 ] * rhs.Y() + data[2 ] * rhs.Z() + data[3 ],
+            data[4 ]  * rhs.X() + data[5 ] * rhs.Y() + data[6 ] * rhs.Z() + data[7 ],
+            data[8 ]  * rhs.X() + data[9 ] * rhs.Y() + data[10] * rhs.Z() + data[11]
+        );
+    }
+
+    Matrix4<T> operator*(const Matrix4<T>& rhs) const {
+        return Matrix4<T>(
+            data[0] * rhs.data[0] + data[1] * rhs.data[4] + data[2] * rhs.data[8 ] + data[3] * rhs.data[12],
+            data[0] * rhs.data[1] + data[1] * rhs.data[5] + data[2] * rhs.data[9 ] + data[3] * rhs.data[13],
+            data[0] * rhs.data[2] + data[1] * rhs.data[6] + data[2] * rhs.data[10] + data[3] * rhs.data[14],
+            data[0] * rhs.data[3] + data[1] * rhs.data[7] + data[2] * rhs.data[11] + data[3] * rhs.data[15],
+
+            data[4] * rhs.data[0] + data[5] * rhs.data[4] + data[6] * rhs.data[8 ] + data[7] * rhs.data[12],
+            data[4] * rhs.data[1] + data[5] * rhs.data[5] + data[6] * rhs.data[9 ] + data[7] * rhs.data[13],
+            data[4] * rhs.data[2] + data[5] * rhs.data[6] + data[6] * rhs.data[10] + data[7] * rhs.data[14],
+            data[4] * rhs.data[3] + data[5] * rhs.data[7] + data[6] * rhs.data[11] + data[7] * rhs.data[15],
+
+            data[8] * rhs.data[0] + data[9] * rhs.data[4] + data[10] * rhs.data[8 ] + data[11] * rhs.data[12],
+            data[8] * rhs.data[1] + data[9] * rhs.data[5] + data[10] * rhs.data[9 ] + data[11] * rhs.data[13],
+            data[8] * rhs.data[2] + data[9] * rhs.data[6] + data[10] * rhs.data[10] + data[11] * rhs.data[14],
+            data[8] * rhs.data[3] + data[9] * rhs.data[7] + data[10] * rhs.data[11] + data[11] * rhs.data[15],
+
+            data[12] * rhs.data[0] + data[13] * rhs.data[4] + data[14] * rhs.data[8 ] + data[15] * rhs.data[12],
+            data[12] * rhs.data[1] + data[13] * rhs.data[5] + data[14] * rhs.data[9 ] + data[15] * rhs.data[13],
+            data[12] * rhs.data[2] + data[13] * rhs.data[6] + data[14] * rhs.data[10] + data[15] * rhs.data[14],
+            data[12] * rhs.data[3] + data[13] * rhs.data[7] + data[14] * rhs.data[11] + data[15] * rhs.data[15]
+        );
+    }
+
+    Matrix4<T>& operator*=(const Matrix4<T>& rhs) {
+        *this = *this * rhs;
+        return *this;
+    }
+
+    bool operator==(const Matrix4<T>& rhs) const {
+        return (data[0 ] == rhs.data[0 ]) && (data[1 ] == rhs.data[1 ]) && (data[2 ] == rhs.data[2 ]) && (data[3 ] == rhs.data[3 ])  &&
+               (data[4 ] == rhs.data[4 ]) && (data[5 ] == rhs.data[5 ]) && (data[6 ] == rhs.data[6 ]) && (data[7 ] == rhs.data[7] )  &&
+               (data[8 ] == rhs.data[8 ]) && (data[9 ] == rhs.data[9 ]) && (data[10] == rhs.data[10]) && (data[11] == rhs.data[11]) &&
+               (data[12] == rhs.data[12]) && (data[13] == rhs.data[13]) && (data[14] == rhs.data[14]) && (data[15] == rhs.data[15]);
+    }
+
+    bool operator!=(const Matrix4<T>& rhs) const {
+        return (data[0 ] != rhs.data[0 ]) || (data[1 ] != rhs.data[1 ]) || (data[2 ] != rhs.data[2 ]) || (data[3 ] != rhs.data[3 ]) ||
+               (data[4 ] != rhs.data[4 ]) || (data[5 ] != rhs.data[5 ]) || (data[6 ] != rhs.data[6 ]) || (data[7 ] != rhs.data[7 ]) ||
+               (data[8 ] != rhs.data[8 ]) || (data[9 ] != rhs.data[9 ]) || (data[10] != rhs.data[10]) || (data[11] != rhs.data[11]) ||
+               (data[12] != rhs.data[12]) || (data[13] != rhs.data[13]) || (data[14] != rhs.data[14]) || (data[15] != rhs.data[15]);
+    }
+
+    friend Matrix4<T> operator-(const Matrix4<T>& m);
+    friend Matrix4<T> operator*(T scalar, const Matrix4<T>& m);
+    friend Vector3<T> operator*(const Vector3<T>& vec, const Matrix4<T>& m);
+    friend Vector4<T> operator*(const Vector4<T>& vec, const Matrix4<T>& m);
+    friend std::ostream& operator<<(std::ostream& os, const Matrix4<T>& m);
 
 private:
     T getCofactor(T m0, T m1, T m2, T m3, T m4, T m5, T m6, T m7, T m8) const {
@@ -711,8 +1044,55 @@ private:
     }
 
     T data[16];
-
 };
+
+template<typename T>
+inline Matrix4<T> operator-(const Matrix4<T>& rhs) {
+    return Matrix4(
+                -rhs.data[0 ], -rhs.data[1 ], -rhs.data[2 ], -rhs.data[3 ],
+                -rhs.data[4 ], -rhs.data[5 ], -rhs.data[6 ], -rhs.data[7 ],
+                -rhs.data[8 ], -rhs.data[9 ], -rhs.data[10], -rhs.data[11],
+                -rhs.data[12], -rhs.data[13], -rhs.data[14], -rhs.data[15]);
+}
+
+template<typename T>
+inline Matrix4<T> operator*(T s, const Matrix4<T>& rhs) {
+    return Matrix4(
+                s*rhs.data[0 ], s*rhs.data[1 ], s*rhs.data[2 ], s*rhs.data[3 ],
+                s*rhs.data[4 ], s*rhs.data[5 ], s*rhs.data[6 ], s*rhs.data[7 ],
+                s*rhs.data[8 ], s*rhs.data[9 ], s*rhs.data[10], s*rhs.data[11],
+                s*rhs.data[12], s*rhs.data[13], s*rhs.data[14], s*rhs.data[15]);
+}
+
+template<typename T>
+inline Vector4<T> operator*(const Vector4<T>& v, const Matrix4<T>& m) {
+    return Vector4<T>(
+        v.X() * m.data[0] + v.Y() * m.data[4] + v.Z() * m.data[8 ] + v.W() * m.data[12], 
+        v.X() * m.data[1] + v.Y() * m.data[5] + v.Z() * m.data[9 ] + v.W() * m.data[13], 
+        v.X() * m.data[2] + v.Y() * m.data[6] + v.Z() * m.data[10] + v.W() * m.data[14], 
+        v.X() * m.data[3] + v.Y() * m.data[7] + v.Z() * m.data[11] + v.W() * m.data[15]
+    );
+}
+
+template<typename T>
+inline Vector3<T> operator*(const Vector3<T>& v, const Matrix4<T>& m) {
+    return Vector3<T>(
+        v.X() * m.data[0] + v.Y() * m.data[4] + v.Z() * m.data[8 ] + m.data[12], 
+        v.X() * m.data[1] + v.Y() * m.data[5] + v.Z() * m.data[9 ] + m.data[13], 
+        v.X() * m.data[2] + v.Y() * m.data[6] + v.Z() * m.data[10] + m.data[14]
+    );
+}
+
+template<typename T>
+inline std::ostream& operator<<(std::ostream& os, const Matrix4<T>& m) {
+    os << std::fixed << std::setprecision(5);
+    os << "[" << std::setw(10) << m.data[0 ] << " " << std::setw(10) << m.data[1 ] << " " << std::setw(10) << m.data[2 ] <<  " " << std::setw(10) << m.data[3 ] << "]\n"
+       << "[" << std::setw(10) << m.data[4 ] << " " << std::setw(10) << m.data[5 ] << " " << std::setw(10) << m.data[6 ] <<  " " << std::setw(10) << m.data[7 ] << "]\n"
+       << "[" << std::setw(10) << m.data[8 ] << " " << std::setw(10) << m.data[9 ] << " " << std::setw(10) << m.data[10] <<  " " << std::setw(10) << m.data[11] << "]\n"
+       << "[" << std::setw(10) << m.data[12] << " " << std::setw(10) << m.data[13] << " " << std::setw(10) << m.data[14] <<  " " << std::setw(10) << m.data[15] << "]\n";
+    os << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield);
+    return os;
+}
 
 }
 
