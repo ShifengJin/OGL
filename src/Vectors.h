@@ -11,6 +11,7 @@ namespace Darker{
     template<typename T>
     inline std::ostream& operator<<(std::ostream& os, const Vector2<T>& vec) {
         os << "[" << vec.X() << ", " << vec.Y() << "]";
+        return os;
     }
 
     template<typename T>
@@ -100,16 +101,6 @@ namespace Darker{
         Vector2<T>& operator*=(const Vector2<T>& rhs) {
             data[0] *= rhs.data[0];
             data[1] *= rhs.data[1];
-            return *this;
-        }
-
-        Vector2<T> operator/(const T scale) const {
-            return Vector<T>(data[0] / scale, data[1] / scale);
-        }
-
-        Vector2<T>& operator/=(const T scale) {
-            data[0] /= scale;
-            data[1] /= scale;
             return *this;
         }
 
@@ -341,7 +332,7 @@ namespace Darker{
             return *this;
         }
 
-        T Vector4<T> Dot(const Vector4<T>& rhs) const {
+        T Dot(const Vector4<T>& rhs) const {
             return (data[0] * rhs.data[0] + data[1] * rhs.data[1] + data[2] * rhs.data[2] + data[3] * rhs.data[3]);
         }
 

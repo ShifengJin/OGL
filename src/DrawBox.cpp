@@ -55,14 +55,14 @@ DrawBox::DrawBox()
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 
-    m_srcBox[0] = DarkerOGL::Vector3<float>(-0.5f, -0.5f, 0.0f);
-    m_srcBox[1] = DarkerOGL::Vector3<float>(-0.5f,  0.5f, 0.0f);
-    m_srcBox[2] = DarkerOGL::Vector3<float>( 0.5f, -0.5f, 0.0f);
-    m_srcBox[3] = DarkerOGL::Vector3<float>( 0.5f,  0.5f, 0.0f);
-    m_srcBox[4] = DarkerOGL::Vector3<float>(-0.5f, -0.5f, 1.f);
-    m_srcBox[5] = DarkerOGL::Vector3<float>(-0.5f,  0.5f, 1.f);
-    m_srcBox[6] = DarkerOGL::Vector3<float>( 0.5f, -0.5f, 1.f);
-    m_srcBox[7] = DarkerOGL::Vector3<float>( 0.5f,  0.5f, 1.f);
+    m_srcBox[0] = Darker::Vector3<float>(-0.5f, -0.5f, 0.0f);
+    m_srcBox[1] = Darker::Vector3<float>(-0.5f,  0.5f, 0.0f);
+    m_srcBox[2] = Darker::Vector3<float>( 0.5f, -0.5f, 0.0f);
+    m_srcBox[3] = Darker::Vector3<float>( 0.5f,  0.5f, 0.0f);
+    m_srcBox[4] = Darker::Vector3<float>(-0.5f, -0.5f, 1.f);
+    m_srcBox[5] = Darker::Vector3<float>(-0.5f,  0.5f, 1.f);
+    m_srcBox[6] = Darker::Vector3<float>( 0.5f, -0.5f, 1.f);
+    m_srcBox[7] = Darker::Vector3<float>( 0.5f,  0.5f, 1.f);
 
     m_Draw3DLines = Draw3DLines::ptr(new Draw3DLines());
 }
@@ -78,8 +78,7 @@ DrawBox::~DrawBox()
     m_Draw3DLines.reset();
 }
 
-void DrawBox::SetBoxInfo(DarkerOGL::Vector3<float> center, 
-	float scale, DarkerOGL::Vector4<float> edgeColor, DarkerOGL::Vector4<float> faceColor)
+void DrawBox::SetBoxInfo(Darker::Vector3<float> center, float scale, Darker::Vector4<float> edgeColor, Darker::Vector4<float> faceColor)
 {
 	m_center = center;
 	m_scale = scale;

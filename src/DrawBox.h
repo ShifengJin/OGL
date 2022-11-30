@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string.h>
+#include "Vectors.h"
 #include "Common.h"
 #include "DrawLines.h"
 
@@ -16,9 +17,9 @@ public:
 	DrawBox();
 	~DrawBox();
 
-	void SetBoxInfo(DarkerOGL::Vector3<float> center, float scale,
-		DarkerOGL::Vector4<float> edgeColor = DarkerOGL::Vector4<float>(0.f, 0.f, 1.f, 1.f),
-		DarkerOGL::Vector4<float> faceColor = DarkerOGL::Vector4<float>(0.f, 1.f, 0.f, 0.3f));
+	void SetBoxInfo(Darker::Vector3<float> center, float scale,
+		Darker::Vector4<float> edgeColor = Darker::Vector4<float>(0.f, 0.f, 1.f, 1.f),
+		Darker::Vector4<float> faceColor = Darker::Vector4<float>(0.f, 1.f, 0.f, 0.3f));
 
 	void SetModelMatrix(float* modelMatrix) {
 		memcpy(m_modelMatrix, modelMatrix, 16 * sizeof(float));
@@ -34,16 +35,16 @@ public:
 
 private:
 	float m_scale;
-	DarkerOGL::Vector3<float> m_center;
-	DarkerOGL::Vector4<float> m_edgeColor;
-	DarkerOGL::Vector4<float> m_faceColor;
+	Darker::Vector3<float> m_center;
+	Darker::Vector4<float> m_edgeColor;
+	Darker::Vector4<float> m_faceColor;
 	Draw3DLines::ptr m_pDrawLines;
 
-	DarkerOGL::Vector3<float> m_srcBox[8];
-	DarkerOGL::Vector3<float> m_dstBox[8];
+	Darker::Vector3<float> m_srcBox[8];
+	Darker::Vector3<float> m_dstBox[8];
 	DarkerOGL::Line3D m_edges[12];
 
-	DarkerOGL::Vector3<float> m_triangle[12 * 3];
+	Darker::Vector3<float> m_triangle[12 * 3];
 	float m_buffer[12 * 21];
 
 	float m_modelMatrix[16];
