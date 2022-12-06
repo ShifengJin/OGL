@@ -510,6 +510,13 @@ public:
         data[12] = m30; data[13] = m31, data[14] = m32, data[15] = m33;
     }
 
+    Matrix4(Matrix3<T>& rotateMatrix, Vector3<T>& transform) {
+        Set(rotateMatrix[0], rotateMatrix[1], rotateMatrix[2], transform[0],
+        rotateMatrix[3], rotateMatrix[4], rotateMatrix[5], transform[1],
+        rotateMatrix[6], rotateMatrix[7], rotateMatrix[8], transform[2],
+        0., 0., 0., 1.);
+    }
+
     void Set(const T src[16]) {
         data[0 ] = src[0 ]; data[1 ] = src[1 ]; data[2 ] = src[2 ]; data[3 ] = src[3 ];
         data[4 ] = src[4 ]; data[5 ] = src[5 ]; data[6 ] = src[6 ]; data[7 ] = src[7 ];
@@ -583,6 +590,11 @@ public:
                        data[4], data[5], data[6],
                        data[8], data[9], data[10]);
         return mat;
+    }
+
+    Vector3<T> GetTransform() const {
+        Vector3<T> t(data[3], data[7], data[11]);
+        return t;
     }
 
     Matrix4<T>& Identity() {
@@ -708,7 +720,7 @@ public:
         float determinant = data[0] * cofactor0 - data[1] * cofactor1 + data[2] * cofactor2 - data[3] * cofactor3;
         if(fabs(determinant) <= EPSILON)
         {
-            return identity();
+            return Identity();
         }
 
         // get rest of cofactors for adj(M)
@@ -759,7 +771,7 @@ public:
     Matrix4<T>& Rotate(T angle, T x, T y, T z) {
         T c = (T)cos(angle * DEG2RAD);
         T s = (T)sin(angle * DEG2RAD);
-        T = (T)(1. - c);
+        T c1 = (T)(1. - c);
 
         T m00 = data[0]; 
         T m01 = data[1];
@@ -906,7 +918,7 @@ public:
                 up.Set((T)0., (T)0., (T)1.);
             }
         }else {
-            up.Set((T)0., (T)1., (T0.);
+            up.Set((T)0., (T)1., T(0.));
         }
 
         left = up.Cross(forward);
@@ -975,7 +987,7 @@ public:
             data[0 ]  * rhs.X() + data[1 ] * rhs.Y() + data[2 ] * rhs.Z() + data[3 ] * rhs.W(),
             data[4 ]  * rhs.X() + data[5 ] * rhs.Y() + data[6 ] * rhs.Z() + data[7 ] * rhs.W(),
             data[8 ]  * rhs.X() + data[9 ] * rhs.Y() + data[10] * rhs.Z() + data[11] * rhs.W(),
-            data[12]  * rhs.X() + data[13] * rhs.Y() + data[14] * rhs.Z() + data[15] * rhs.W(),
+            data[12]  * rhs.X() + data[13] * rhs.Y() + data[14] * rhs.Z() + data[15] * rhs.W()
         );
     }
 
@@ -1030,6 +1042,8 @@ public:
                (data[12] != rhs.data[12]) || (data[13] != rhs.data[13]) || (data[14] != rhs.data[14]) || (data[15] != rhs.data[15]);
     }
 
+    T* Data() { return data; }
+
     friend Matrix4<T> operator-(const Matrix4<T>& m);
     friend Matrix4<T> operator*(T scalar, const Matrix4<T>& m);
     friend Vector3<T> operator*(const Vector3<T>& vec, const Matrix4<T>& m);
@@ -1048,7 +1062,7 @@ private:
 
 template<typename T>
 inline Matrix4<T> operator-(const Matrix4<T>& rhs) {
-    return Matrix4(
+    return Matrix4<T>(
                 -rhs.data[0 ], -rhs.data[1 ], -rhs.data[2 ], -rhs.data[3 ],
                 -rhs.data[4 ], -rhs.data[5 ], -rhs.data[6 ], -rhs.data[7 ],
                 -rhs.data[8 ], -rhs.data[9 ], -rhs.data[10], -rhs.data[11],
@@ -1057,7 +1071,7 @@ inline Matrix4<T> operator-(const Matrix4<T>& rhs) {
 
 template<typename T>
 inline Matrix4<T> operator*(T s, const Matrix4<T>& rhs) {
-    return Matrix4(
+    return Matrix4<T>(
                 s*rhs.data[0 ], s*rhs.data[1 ], s*rhs.data[2 ], s*rhs.data[3 ],
                 s*rhs.data[4 ], s*rhs.data[5 ], s*rhs.data[6 ], s*rhs.data[7 ],
                 s*rhs.data[8 ], s*rhs.data[9 ], s*rhs.data[10], s*rhs.data[11],

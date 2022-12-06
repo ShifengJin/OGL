@@ -264,6 +264,10 @@ namespace Darker{
         bool operator!=(const Vector3<T>& rhs) const {
             return (data[0] != rhs.data[0]) || (data[1] != rhs.data[1]) || (data[2] != rhs.data[2]);
         }
+
+        T operator[](int index) const {
+            return data[index];
+        }
         
 		T X() { return data[0]; }
 		T Y() { return data[1]; }
