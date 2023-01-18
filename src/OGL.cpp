@@ -11,7 +11,35 @@ OGL::OGL(QWidget* parent)
     parameter_width = ui->Param_GroupBox->width();
     parameter_height = ui->Param_GroupBox->height();
 
+    Darker::Matrix4<float> identity;
+    memcpy(xCameraMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(yCameraMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(zCameraMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(cameraTMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(cameraMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(cameraViewMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(xObservedModelMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(yObservedModelMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(zObservedModelMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(observedTMatrix, identity.Data(), 16*sizeof(float));
+    memcpy(observedModelMatrix, identity.Data(), 16*sizeof(float));
+
     SetLayoutParameter();
+
+    SetLabelMatrix(ui->CameraAngleXMatrix_Value_Label, xCameraMatrix);
+    SetLabelMatrix(ui->CameraAngleYMatrix_Value_Label, yCameraMatrix);
+    SetLabelMatrix(ui->CameraAngleZMatrix_Value_Label, zCameraMatrix);
+    SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
+    SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
+
+    Darker::Matrix4<float> cameraM(cameraMatrix);
+    cameraM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
+
+    Darker::Matrix4<float> observedModelM(observedModelMatrix);
+    observedModelM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetObservedModelMatrix(observedModelM.Data());
+
     InitConnect();
 }
 
@@ -24,61 +52,129 @@ OGL::~OGL()
 void OGL::CameraAngleXDoubleSpinBoxChanged(double value)
 {
     qDebug() << value;
+    xCameraAngle = (float)value;
+    updateXCameraAngle(xCameraAngle);
+    updateCameraMatrix();
+    updateCameraViewMatrix();
+    SetLabelMatrix(ui->CameraAngleXMatrix_Value_Label, xCameraMatrix);
+    SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
+
+    Darker::Matrix4<float> cameraM(cameraMatrix);
+    cameraM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraAngleYDoubleSpinBoxChanged(double value)
 {
+    yCameraAngle = (float)value;
+    updateYCameraAngle(yCameraAngle);
+    updateCameraMatrix();
+    updateCameraViewMatrix();
+    SetLabelMatrix(ui->CameraAngleYMatrix_Value_Label, yCameraMatrix);
+    SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
 
+    Darker::Matrix4<float> cameraM(cameraMatrix);
+    cameraM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraAngleZDoubleSpinBoxChanged(double value)
 {
+    zCameraAngle = (float)value;
+    updateZCameraAngle(zCameraAngle);
+    updateCameraMatrix();
+    updateCameraViewMatrix();
+    SetLabelMatrix(ui->CameraAngleZMatrix_Value_Label, zCameraMatrix);
+    SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
 
+    Darker::Matrix4<float> cameraM(cameraMatrix);
+    cameraM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraTXDoubleSpinBoxChanged(double value)
 {
+    xCameraT = (float)value;
+    updateXCameraT(xCameraT);
+    updateCameraMatrix();
+    updateCameraViewMatrix();
 
+    SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
+    SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
+
+    Darker::Matrix4<float> cameraM(cameraMatrix);
+    cameraM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraTYDoubleSpinBoxChanged(double value)
 {
+    yCameraT = (float)value;
+    updateYCameraT(yCameraT);
+    updateCameraMatrix();
+    updateCameraViewMatrix();
+    SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
+    SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
 
+    Darker::Matrix4<float> cameraM(cameraMatrix);
+    cameraM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraTZDoubleSpinBoxChanged(double value)
 {
+    zCameraT = (float)value;
+    updateZCameraT(zCameraT);
+    updateCameraMatrix();
+    updateCameraViewMatrix();
+    SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
+    SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
 
+    Darker::Matrix4<float> cameraM(cameraMatrix);
+    cameraM.Transpose();
+    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::ModelAngleXDoubleSpinBoxChanged(double value)
 {
-
+    xObservedAngle = (float)value;
+    updateXObservedAngle(xObservedAngle);
+    updateObservedMatrix();
 }
 
 void OGL::ModelAngleYDoubleSpinBoxChanged(double value)
 {
-
+    yObservedAngle = (float)value;
+    updateYObservedAngle(yObservedAngle);
+    updateObservedMatrix();
 }
 
 void OGL::ModelAngleZDoubleSpinBoxChanged(double value)
 {
-
+    zObservedAngle = (float)value;
+    updateZObservedAngle(zObservedAngle);
+    updateObservedMatrix();
 }
 
 void OGL::ModelTXDoubleSpinBoxChanged(double value)
 {
-
+    xObservedT = (float)value;
+    updateXObservedT(xObservedT);
+    updateObservedMatrix();
 }
 
 void OGL::ModelTYDoubleSpinBoxChanged(double value)
 {
-
+    yObservedT = (float)value;
+    updateYObservedT(yObservedT);
+    updateObservedMatrix();
 }
 
 void OGL::ModelTZDoubleSpinBoxChanged(double value)
 {
-
+    zObservedT = (float)value;
+    updateZObservedT(zObservedT);
+    updateObservedMatrix();
 }
 
 void OGL::resizeEvent(QResizeEvent *event)
@@ -192,3 +288,100 @@ void OGL::SetLayoutParameter()
     ui->Model_TZ_DoubleSpinBox->setSingleStep(1.);
 }
 
+void OGL::updateXCameraAngle(float xCameraAngle){
+    Darker::Matrix4<float> identity;
+    identity.RotateX(xCameraAngle);
+    memcpy(xCameraMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateYCameraAngle(float yCameraAngle){
+    Darker::Matrix4<float> identity;
+    identity.RotateY(yCameraAngle);
+    memcpy(yCameraMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateZCameraAngle(float zCameraAngle){
+    Darker::Matrix4<float> identity;
+    identity.RotateZ(zCameraAngle);
+    memcpy(zCameraMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateXCameraT(float xCameraT){
+    Darker::Matrix4<float> identity(cameraTMatrix);
+    identity.Data()[3] = xCameraT;
+    memcpy(cameraTMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateYCameraT(float yCameraT){
+    Darker::Matrix4<float> identity(cameraTMatrix);
+    identity.Data()[7] = yCameraT;
+    memcpy(cameraTMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateZCameraT(float zCameraT){
+    Darker::Matrix4<float> identity(cameraTMatrix);
+    identity.Data()[11] = zCameraT;
+    memcpy(cameraTMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateCameraMatrix(){
+    Darker::Matrix4<float> xMatrix(xCameraMatrix);
+    Darker::Matrix4<float> yMatrix(yCameraMatrix);
+    Darker::Matrix4<float> zMatrix(zCameraMatrix);
+    Darker::Matrix4<float> tMatrix(cameraTMatrix);
+    Darker::Matrix4<float> matrix;
+    matrix = tMatrix * xMatrix * yMatrix * zMatrix;
+    memcpy(cameraMatrix, matrix.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateCameraViewMatrix(){
+    Darker::Matrix4<float> matrix(cameraMatrix);
+    matrix.InvertAffinne();
+    memcpy(cameraViewMatrix, matrix.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateXObservedAngle(float xObservedAngle){
+    Darker::Matrix4<float> identity;
+    identity.RotateX(xObservedAngle);
+    memcpy(xObservedModelMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateYObservedAngle(float yObservedAngle){
+    Darker::Matrix4<float> identity;
+    identity.RotateX(yObservedAngle);
+    memcpy(yObservedModelMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateZObservedAngle(float zObservedAngle){
+    Darker::Matrix4<float> identity;
+    identity.RotateX(zObservedAngle);
+    memcpy(zObservedModelMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateXObservedT(float xObservedT){
+    Darker::Matrix4<float> identity(observedTMatrix);
+    identity.Data()[3] = xObservedT;
+    memcpy(observedTMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateYObservedT(float yObservedT){
+    Darker::Matrix4<float> identity(observedTMatrix);
+    identity.Data()[7] = yObservedT;
+    memcpy(observedTMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateZObservedT(float zObservedT){
+    Darker::Matrix4<float> identity(observedTMatrix);
+    identity.Data()[11] = zObservedT;
+    memcpy(observedTMatrix, identity.Data(), 16 * sizeof(float));
+}
+
+void OGL::updateObservedMatrix(){
+    Darker::Matrix4<float> xMatrix(xObservedModelMatrix);
+    Darker::Matrix4<float> yMatrix(yObservedModelMatrix);
+    Darker::Matrix4<float> zMatrix(zObservedModelMatrix);
+    Darker::Matrix4<float> tMatrix(observedTMatrix);
+    Darker::Matrix4<float> matrix;
+    matrix = tMatrix * xMatrix * yMatrix * zMatrix;
+    memcpy(observedModelMatrix, matrix.Data(), 16 * sizeof(float));
+}

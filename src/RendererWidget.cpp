@@ -16,11 +16,16 @@ RendererWidget::RendererWidget(QWidget* parent)
     m_viewMatrix[8] = 0.f; m_viewMatrix[9] = 0.f; m_viewMatrix[10] = 1.f; m_viewMatrix[11] = 0.f;
     m_viewMatrix[12] = 0.f; m_viewMatrix[13] = 0.f; m_viewMatrix[14] = -5.f; m_viewMatrix[15] = 1.f;
 
-    m_modelMatrix[0] = 1.f; m_modelMatrix[1] = 0.f; m_modelMatrix[2] = 0.f; m_modelMatrix[3] = 0.f;
-    m_modelMatrix[4] = 0.f; m_modelMatrix[5] = 1.f; m_modelMatrix[6] = 0.f; m_modelMatrix[7] = 0.f;
-    m_modelMatrix[8] = 0.f; m_modelMatrix[9] = 0.f; m_modelMatrix[10] = 1.f; m_modelMatrix[11] = 0.f;
-    m_modelMatrix[12] = 0.f; m_modelMatrix[13] = 0.f; m_modelMatrix[14] = 0.f; m_modelMatrix[15] = 1.f;
+    m_cameraModelMatrix[0] = 1.f;  m_cameraModelMatrix[1] = 0.f;  m_cameraModelMatrix[2] = 0.f;  m_cameraModelMatrix[3] = 0.f;
+    m_cameraModelMatrix[4] = 0.f;  m_cameraModelMatrix[5] = 1.f;  m_cameraModelMatrix[6] = 0.f;  m_cameraModelMatrix[7] = 0.f;
+    m_cameraModelMatrix[8] = 0.f;  m_cameraModelMatrix[9] = 0.f;  m_cameraModelMatrix[10] = 1.f; m_cameraModelMatrix[11] = 0.f;
+    m_cameraModelMatrix[12] = 0.f; m_cameraModelMatrix[13] = 0.f; m_cameraModelMatrix[14] = 0.f; m_cameraModelMatrix[15] = 1.f;
 
+    m_observedModelMatrix[0] = 1.f;  m_observedModelMatrix[1] = 0.f;  m_observedModelMatrix[2] = 0.f;  m_observedModelMatrix[3] = 0.f;
+    m_observedModelMatrix[4] = 0.f;  m_observedModelMatrix[5] = 1.f;  m_observedModelMatrix[6] = 0.f;  m_observedModelMatrix[7] = 0.f;
+    m_observedModelMatrix[8] = 0.f;  m_observedModelMatrix[9] = 0.f;  m_observedModelMatrix[10] = 1.f; m_observedModelMatrix[11] = 0.f;
+    m_observedModelMatrix[12] = 0.f; m_observedModelMatrix[13] = 0.f; m_observedModelMatrix[14] = 0.f; m_observedModelMatrix[15] = 1.f;
+    
     WindowsWidth = 640;
     WindowsHeight = 480;
 }
@@ -95,7 +100,8 @@ void RendererWidget::drawCamera(){
         
     }
 #endif
-    m_pCameraBase->SetModelMatrix(m_modelMatrix);
+    
+    m_pCameraBase->SetModelMatrix(m_cameraModelMatrix);
     m_pCameraBase->SetViewMatrix(m_viewMatrix);
     m_pCameraBase->SetProjectMatrix(m_projectMatrix);
     m_pCameraBase->Draw();

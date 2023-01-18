@@ -39,7 +39,39 @@ private:
     void UnitConnect();
     void SetLayoutParameter();
 
+    float xCameraMatrix[16];
+    float yCameraMatrix[16];
+    float zCameraMatrix[16];
+    float cameraTMatrix[16];
+    float cameraMatrix[16];
 
+    float cameraViewMatrix[16];
+
+    float xObservedModelMatrix[16];
+    float yObservedModelMatrix[16];
+    float zObservedModelMatrix[16];
+    float observedTMatrix[16];
+    float observedModelMatrix[16];
+
+    float xCameraAngle, yCameraAngle, zCameraAngle, xCameraT, yCameraT, zCameraT;
+    float xObservedAngle, yObservedAngle, zObservedAngle, xObservedT, yObservedT, zObservedT;
+
+    void updateXCameraAngle(float xCameraAngle);
+    void updateYCameraAngle(float yCameraAngle);
+    void updateZCameraAngle(float zCameraAngle);
+    void updateXCameraT(float xCameraT);
+    void updateYCameraT(float yCameraT);
+    void updateZCameraT(float zCameraT);
+    void updateCameraMatrix();
+    void updateCameraViewMatrix();
+
+    void updateXObservedAngle(float xObservedAngle);
+    void updateYObservedAngle(float yObservedAngle);
+    void updateZObservedAngle(float zObservedAngle);
+    void updateXObservedT(float xObservedT);
+    void updateYObservedT(float yObservedT);
+    void updateZObservedT(float zObservedT);
+    void updateObservedMatrix();
 private:
     int parameter_width = 0;
     int parameter_height = 0;

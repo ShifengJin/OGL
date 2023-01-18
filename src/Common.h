@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "Vectors.h"
+#include "Matrices.h"
 
 using namespace Darker;
 

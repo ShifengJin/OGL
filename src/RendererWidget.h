@@ -20,8 +20,12 @@ public:
         memcpy(m_viewMatrix, viewMatrix, 16 * sizeof(float));
     }
 
-    void SetModelMatrix(float* modelMatrix) {
-        memcpy(m_modelMatrix, modelMatrix, 16 * sizeof(float));
+    void SetObservedModelMatrix(float* observedModelMatrix) {
+        memcpy(m_observedModelMatrix, observedModelMatrix, 16 * sizeof(float));
+    }
+
+    void SetCameraModelMatrix(float* cameraModelMatrix){
+        memcpy(m_cameraModelMatrix, cameraModelMatrix, 16 * sizeof(float));
     }
 
     void SetProjectMatrix(float* projectMatrix) {
@@ -59,7 +63,8 @@ private:
 
 private:
     float m_viewMatrix[16];
-    float m_modelMatrix[16];      // 主列
+    float m_observedModelMatrix[16];      // 主列
+    float m_cameraModelMatrix[16];
     float m_projectMatrix[16];
 
     int WindowsWidth, WindowsHeight;
