@@ -400,8 +400,8 @@
       <rect>
        <x>250</x>
        <y>20</y>
-       <width>101</width>
-       <height>31</height>
+       <width>128</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text">
@@ -426,8 +426,8 @@
       <rect>
        <x>690</x>
        <y>20</y>
-       <width>101</width>
-       <height>31</height>
+       <width>128</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text">
@@ -452,8 +452,8 @@
       <rect>
        <x>910</x>
        <y>20</y>
-       <width>101</width>
-       <height>21</height>
+       <width>128</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text">
@@ -465,8 +465,8 @@
       <rect>
        <x>1130</x>
        <y>20</y>
-       <width>101</width>
-       <height>21</height>
+       <width>128</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text">
@@ -504,8 +504,8 @@
       <rect>
        <x>490</x>
        <y>20</y>
-       <width>61</width>
-       <height>31</height>
+       <width>128</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text">
@@ -517,6 +517,136 @@
       <rect>
        <x>420</x>
        <y>60</y>
+       <width>200</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelMatrix_Label">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>250</y>
+       <width>128</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ModelMatrix</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelTMatrix_Label">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>250</y>
+       <width>128</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TMatrix</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelAngleXMatrix_Label">
+     <property name="geometry">
+      <rect>
+       <x>690</x>
+       <y>250</y>
+       <width>128</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>AngleXMatrix</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelAngleYMatrix_Label">
+     <property name="geometry">
+      <rect>
+       <x>910</x>
+       <y>250</y>
+       <width>128</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>AngleYMatrix</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelAngleZMatrix_Label">
+     <property name="geometry">
+      <rect>
+       <x>1130</x>
+       <y>250</y>
+       <width>128</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>AngleZMatrix</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelAngleZMatrix_Value_Label">
+     <property name="geometry">
+      <rect>
+       <x>1080</x>
+       <y>300</y>
+       <width>200</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelAngleXMatrix_Value_Label">
+     <property name="geometry">
+      <rect>
+       <x>640</x>
+       <y>300</y>
+       <width>200</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelMatrix_Value_Label">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>300</y>
+       <width>200</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelTMatrix_Value_Label">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>300</y>
+       <width>200</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ModelAngleYMatrix_Value_Label">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>300</y>
        <width>200</width>
        <height>100</height>
       </rect>

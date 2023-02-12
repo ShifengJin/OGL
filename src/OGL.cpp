@@ -32,6 +32,12 @@ OGL::OGL(QWidget* parent)
     SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
     SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
 
+    SetLabelMatrix(ui->ModelAngleXMatrix_Value_Label, xObservedModelMatrix);
+    SetLabelMatrix(ui->ModelAngleYMatrix_Value_Label, yObservedModelMatrix);
+    SetLabelMatrix(ui->ModelAngleZMatrix_Value_Label, zObservedModelMatrix);
+    SetLabelMatrix(ui->ModelTMatrix_Value_Label, observedTMatrix);
+    SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
+
     Darker::Matrix4<float> cameraM(cameraMatrix);
     cameraM.Transpose();
     ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
@@ -140,6 +146,11 @@ void OGL::ModelAngleXDoubleSpinBoxChanged(double value)
     xObservedAngle = (float)value;
     updateXObservedAngle(xObservedAngle);
     updateObservedMatrix();
+    SetLabelMatrix(ui->ModelAngleXMatrix_Value_Label, xObservedModelMatrix);
+    SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
+
+
+
 }
 
 void OGL::ModelAngleYDoubleSpinBoxChanged(double value)
@@ -147,6 +158,9 @@ void OGL::ModelAngleYDoubleSpinBoxChanged(double value)
     yObservedAngle = (float)value;
     updateYObservedAngle(yObservedAngle);
     updateObservedMatrix();
+    SetLabelMatrix(ui->ModelAngleYMatrix_Value_Label, yObservedModelMatrix);
+
+    SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 }
 
 void OGL::ModelAngleZDoubleSpinBoxChanged(double value)
@@ -154,6 +168,8 @@ void OGL::ModelAngleZDoubleSpinBoxChanged(double value)
     zObservedAngle = (float)value;
     updateZObservedAngle(zObservedAngle);
     updateObservedMatrix();
+    SetLabelMatrix(ui->ModelAngleZMatrix_Value_Label, zObservedModelMatrix);
+    SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 }
 
 void OGL::ModelTXDoubleSpinBoxChanged(double value)
@@ -161,6 +177,8 @@ void OGL::ModelTXDoubleSpinBoxChanged(double value)
     xObservedT = (float)value;
     updateXObservedT(xObservedT);
     updateObservedMatrix();
+    SetLabelMatrix(ui->ModelTMatrix_Value_Label, observedTMatrix);
+    SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 }
 
 void OGL::ModelTYDoubleSpinBoxChanged(double value)
@@ -168,6 +186,8 @@ void OGL::ModelTYDoubleSpinBoxChanged(double value)
     yObservedT = (float)value;
     updateYObservedT(yObservedT);
     updateObservedMatrix();
+    SetLabelMatrix(ui->ModelTMatrix_Value_Label, observedTMatrix);
+    SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 }
 
 void OGL::ModelTZDoubleSpinBoxChanged(double value)
@@ -175,6 +195,8 @@ void OGL::ModelTZDoubleSpinBoxChanged(double value)
     zObservedT = (float)value;
     updateZObservedT(zObservedT);
     updateObservedMatrix();
+    SetLabelMatrix(ui->ModelTMatrix_Value_Label, observedTMatrix);
+    SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 }
 
 void OGL::resizeEvent(QResizeEvent *event)
