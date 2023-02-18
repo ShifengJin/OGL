@@ -4,6 +4,7 @@
 #include "ui_OGL.h"
 #include <QMainWindow>
 #include <QResizeEvent>
+#include "CameraSimple.h"
 
 class OGL : public QMainWindow {
     Q_OBJECT
@@ -78,6 +79,8 @@ private:
 
 private:
     Ui_OGL* ui;
+
+    CameraBase::ptr mpCameraSimple;
 };
 
 #endif

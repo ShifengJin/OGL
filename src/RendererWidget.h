@@ -6,6 +6,7 @@
 
 #include <QtWidgets/QOpenGLWidget>
 #include <QMouseEvent>
+#include <mutex>
 
 class RendererWidget : public QOpenGLWidget {
     Q_OBJECT
@@ -16,34 +17,17 @@ public:
 
     void ResizeWindows(int width, int height);
 
-    void SetViewMatrix(float* viewMatrix) {
-        memcpy(m_viewMatrix, viewMatrix, 16 * sizeof(float));
-    }
-
-    void SetObservedModelMatrix(float* observedModelMatrix) {
-        memcpy(m_observedModelMatrix, observedModelMatrix, 16 * sizeof(float));
-    }
-
-    void SetCameraModelMatrix(float* cameraModelMatrix){
-        memcpy(m_cameraModelMatrix, cameraModelMatrix, 16 * sizeof(float));
-    }
-
     void SetProjectMatrix(float* projectMatrix) {
         memcpy(m_projectMatrix, projectMatrix, 16 * sizeof(float));
     }
     
-
     void UpdateWidget();
 
-
+    bool AddRenderedTarget(RenderedObject::ptr object);
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
-
-    void initCamera();
-    void unitCamera();
-    void drawCamera();
 
     void mouseMoveEvent(QMouseEvent* e);
     void mousePressEvent(QMouseEvent* e);
@@ -61,21 +45,22 @@ private:
         oProjectMatrix[14] = -(2 * zFar * zNear) / (zFar - zNear);
     }
 
+    void makeSureTheRenderedObjectsAreInitialized();
+    void drawTheRenderedObjects();
+    void unInitializedObjects();
+
 private:
     float m_viewMatrix[16];
-    float m_observedModelMatrix[16];      // 主列
-    float m_cameraModelMatrix[16];
     float m_projectMatrix[16];
 
     int WindowsWidth, WindowsHeight;
-
-    CameraBase::ptr m_pCameraBase;
-
+    
     bool m_leftMousePressed = false;
     float m_xStart, m_yStart, m_xCur, m_yCur;
 
     
-    
+    std::map<std::string, RenderedObject::ptr> mpRenderedObjects;
+    std::mutex mRenderedObjectsMutex;
 };
 
 #endif

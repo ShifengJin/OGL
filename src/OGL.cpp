@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <sstream>
 #include "Common.h"
+#include "CameraSimple.h"
 #include "OGL.h"
 
 OGL::OGL(QWidget* parent)
@@ -8,6 +9,9 @@ OGL::OGL(QWidget* parent)
     , ui(new Ui_OGL)
 {
     ui->setupUi(this);
+
+    mpCameraSimple = CameraBase::ptr(new CameraBase());
+
     parameter_width = ui->Param_GroupBox->width();
     parameter_height = ui->Param_GroupBox->height();
 
@@ -38,20 +42,16 @@ OGL::OGL(QWidget* parent)
     SetLabelMatrix(ui->ModelTMatrix_Value_Label, observedTMatrix);
     SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 
-    Darker::Matrix4<float> cameraM(cameraMatrix);
-    cameraM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
-
-    Darker::Matrix4<float> observedModelM(observedModelMatrix);
-    observedModelM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetObservedModelMatrix(observedModelM.Data());
-
+    mpCameraSimple->SetModelMatrix(cameraMatrix);
+    mpCameraSimple->SetName("Camera Simple");
+    ((RendererWidget*)(ui->openGLWidget))->AddRenderedTarget(mpCameraSimple);
     InitConnect();
 }
 
 OGL::~OGL()
 {
     UnitConnect();
+    mpCameraSimple.reset();
     delete ui;
 }
 
@@ -64,10 +64,6 @@ void OGL::CameraAngleXDoubleSpinBoxChanged(double value)
     updateCameraViewMatrix();
     SetLabelMatrix(ui->CameraAngleXMatrix_Value_Label, xCameraMatrix);
     SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
-
-    Darker::Matrix4<float> cameraM(cameraMatrix);
-    cameraM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraAngleYDoubleSpinBoxChanged(double value)
@@ -78,10 +74,6 @@ void OGL::CameraAngleYDoubleSpinBoxChanged(double value)
     updateCameraViewMatrix();
     SetLabelMatrix(ui->CameraAngleYMatrix_Value_Label, yCameraMatrix);
     SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
-
-    Darker::Matrix4<float> cameraM(cameraMatrix);
-    cameraM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraAngleZDoubleSpinBoxChanged(double value)
@@ -92,10 +84,6 @@ void OGL::CameraAngleZDoubleSpinBoxChanged(double value)
     updateCameraViewMatrix();
     SetLabelMatrix(ui->CameraAngleZMatrix_Value_Label, zCameraMatrix);
     SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
-
-    Darker::Matrix4<float> cameraM(cameraMatrix);
-    cameraM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraTXDoubleSpinBoxChanged(double value)
@@ -107,10 +95,6 @@ void OGL::CameraTXDoubleSpinBoxChanged(double value)
 
     SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
     SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
-
-    Darker::Matrix4<float> cameraM(cameraMatrix);
-    cameraM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraTYDoubleSpinBoxChanged(double value)
@@ -121,10 +105,6 @@ void OGL::CameraTYDoubleSpinBoxChanged(double value)
     updateCameraViewMatrix();
     SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
     SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
-
-    Darker::Matrix4<float> cameraM(cameraMatrix);
-    cameraM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::CameraTZDoubleSpinBoxChanged(double value)
@@ -135,10 +115,6 @@ void OGL::CameraTZDoubleSpinBoxChanged(double value)
     updateCameraViewMatrix();
     SetLabelMatrix(ui->CameraTMatrix_Value_Label, cameraTMatrix);
     SetLabelMatrix(ui->CameraMatrix_Value_Label, cameraMatrix);
-
-    Darker::Matrix4<float> cameraM(cameraMatrix);
-    cameraM.Transpose();
-    ((RendererWidget*)(ui->openGLWidget))->SetCameraModelMatrix(cameraM.Data());
 }
 
 void OGL::ModelAngleXDoubleSpinBoxChanged(double value)
@@ -148,9 +124,6 @@ void OGL::ModelAngleXDoubleSpinBoxChanged(double value)
     updateObservedMatrix();
     SetLabelMatrix(ui->ModelAngleXMatrix_Value_Label, xObservedModelMatrix);
     SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
-
-
-
 }
 
 void OGL::ModelAngleYDoubleSpinBoxChanged(double value)
@@ -354,6 +327,10 @@ void OGL::updateCameraMatrix(){
     Darker::Matrix4<float> matrix;
     matrix = tMatrix * xMatrix * yMatrix * zMatrix;
     memcpy(cameraMatrix, matrix.Data(), 16 * sizeof(float));
+
+    Darker::Matrix4<float> camMatrix;
+    camMatrix = matrix.Transpose();
+    mpCameraSimple->SetModelMatrix(camMatrix.Data());
 }
 
 void OGL::updateCameraViewMatrix(){

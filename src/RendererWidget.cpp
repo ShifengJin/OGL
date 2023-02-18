@@ -15,31 +15,20 @@ RendererWidget::RendererWidget(QWidget* parent)
     m_viewMatrix[4] = 0.f; m_viewMatrix[5] = 1.f; m_viewMatrix[6] = 0.f; m_viewMatrix[7] = 0.f;
     m_viewMatrix[8] = 0.f; m_viewMatrix[9] = 0.f; m_viewMatrix[10] = 1.f; m_viewMatrix[11] = 0.f;
     m_viewMatrix[12] = 0.f; m_viewMatrix[13] = 0.f; m_viewMatrix[14] = -5.f; m_viewMatrix[15] = 1.f;
-
-    m_cameraModelMatrix[0] = 1.f;  m_cameraModelMatrix[1] = 0.f;  m_cameraModelMatrix[2] = 0.f;  m_cameraModelMatrix[3] = 0.f;
-    m_cameraModelMatrix[4] = 0.f;  m_cameraModelMatrix[5] = 1.f;  m_cameraModelMatrix[6] = 0.f;  m_cameraModelMatrix[7] = 0.f;
-    m_cameraModelMatrix[8] = 0.f;  m_cameraModelMatrix[9] = 0.f;  m_cameraModelMatrix[10] = 1.f; m_cameraModelMatrix[11] = 0.f;
-    m_cameraModelMatrix[12] = 0.f; m_cameraModelMatrix[13] = 0.f; m_cameraModelMatrix[14] = 0.f; m_cameraModelMatrix[15] = 1.f;
-
-    m_observedModelMatrix[0] = 1.f;  m_observedModelMatrix[1] = 0.f;  m_observedModelMatrix[2] = 0.f;  m_observedModelMatrix[3] = 0.f;
-    m_observedModelMatrix[4] = 0.f;  m_observedModelMatrix[5] = 1.f;  m_observedModelMatrix[6] = 0.f;  m_observedModelMatrix[7] = 0.f;
-    m_observedModelMatrix[8] = 0.f;  m_observedModelMatrix[9] = 0.f;  m_observedModelMatrix[10] = 1.f; m_observedModelMatrix[11] = 0.f;
-    m_observedModelMatrix[12] = 0.f; m_observedModelMatrix[13] = 0.f; m_observedModelMatrix[14] = 0.f; m_observedModelMatrix[15] = 1.f;
-    
     WindowsWidth = 640;
     WindowsHeight = 480;
 }
 
 RendererWidget::~RendererWidget()
 {
-    unitCamera();
+    unInitializedObjects();
+    mpRenderedObjects.clear();
 }
 
 void RendererWidget::ResizeWindows(int width, int height)
 {
     WindowsWidth = width;
     WindowsHeight = height;
-
     
     setFixedSize(WindowsWidth, WindowsHeight);
 }
@@ -54,8 +43,6 @@ void RendererWidget::initializeGL()
     if (status != GLEW_OK) {
         std::cout << "glewInit error." << std::endl;
     }
-
-    initCamera();
 }
 
 void RendererWidget::resizeGL(int w, int h)
@@ -63,48 +50,78 @@ void RendererWidget::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
 
     ComputeProjectMatrix_OpenGL(60.f, w * 1.f / h, 0.01f, 100.f, m_projectMatrix);
-
 }
 
 void RendererWidget::paintGL()
 {
-    glClearColor(0.5f, 0.5f, 1.f, 1.f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    drawCamera();
+    // make sure the RenderedObject is visible before drawing
+    makeSureTheRenderedObjectsAreInitialized();
+
+    drawTheRenderedObjects();
 
     glDisable(GL_DEPTH_TEST);
 
     update();
 }
 
-void RendererWidget::initCamera(){
-    m_pCameraBase = CameraBase::ptr(new CameraBase());
+bool RendererWidget::AddRenderedTarget(RenderedObject::ptr object){
+    bool ans = true;
+    mRenderedObjectsMutex.lock();
+    std::map<std::string, RenderedObject::ptr>::iterator it = mpRenderedObjects.begin();
+    while(it != mpRenderedObjects.end()){
+        if(it->first == object->GetName()){
+            ans = false;
+            break;
+        }
+        it++;
+    }
+    if(ans){
+        mpRenderedObjects[object->GetName()] = object;
+    }
+    mRenderedObjectsMutex.unlock();
+    return ans;
 }
 
-void RendererWidget::unitCamera(){
-    m_pCameraBase.reset();
-}
-
-void RendererWidget::drawCamera(){
-#if 0
-    qDebug() << "viewMatrix:";
-    for(int i = 0; i < 4; ++ i){
-        qDebug() << m_viewMatrix[i * 4 + 0] << ", " << m_viewMatrix[i * 4 + 1] << ", " <<m_viewMatrix[i * 4 + 2] << ", " <<m_viewMatrix[i * 4 + 3];
-        
-    }
-
-    qDebug() << "projectMatrix:";
-    for(int i = 0; i < 4; ++ i){
-        qDebug() << m_projectMatrix[i * 4 + 0] << ", " << m_projectMatrix[i * 4 + 1] << ", " <<m_projectMatrix[i * 4 + 2] << ", " <<m_projectMatrix[i * 4 + 3];
-        
-    }
-#endif
+void RendererWidget::makeSureTheRenderedObjectsAreInitialized(){
     
-    m_pCameraBase->SetModelMatrix(m_cameraModelMatrix);
-    m_pCameraBase->SetViewMatrix(m_viewMatrix);
-    m_pCameraBase->SetProjectMatrix(m_projectMatrix);
-    m_pCameraBase->Draw();
+    mRenderedObjectsMutex.lock();
+    std::map<std::string, RenderedObject::ptr>::iterator it = mpRenderedObjects.begin();
+    while(it != mpRenderedObjects.end()){
+        if(it->second->GetType() == OBJECTTYPE::NONE){
+            it->second->Init();
+        }
+        it++;
+    }
+    mRenderedObjectsMutex.unlock();
+}
+
+void RendererWidget::drawTheRenderedObjects(){
+    mRenderedObjectsMutex.lock();
+    std::map<std::string, RenderedObject::ptr>::iterator it = mpRenderedObjects.begin();
+    while(it != mpRenderedObjects.end()){
+        if(it->second->GetType() == OBJECTTYPE::INITED){
+            it->second->SetProjectMatrix(m_projectMatrix);
+            it->second->SetViewMatrix(m_viewMatrix);
+            it->second->Draw();
+        }
+        it++;
+    }
+    mRenderedObjectsMutex.unlock();
+}
+
+void RendererWidget::unInitializedObjects(){
+    mRenderedObjectsMutex.lock();
+    std::map<std::string, RenderedObject::ptr>::iterator it = mpRenderedObjects.begin();
+    while(it != mpRenderedObjects.end()){
+        if(it->second->GetType() == OBJECTTYPE::INITED){
+            it->second->Unit();
+        }
+        it++;
+    }
+    mRenderedObjectsMutex.unlock();
 }
 
 void RendererWidget::mouseMoveEvent(QMouseEvent* e){

@@ -245,8 +245,10 @@ CameraBase::CameraBase() {
     m_projectMatrix[5] = 1.f;
     m_projectMatrix[10] = 1.f;
     m_projectMatrix[15] = 1.f;
+}
 
-
+void CameraBase::Init(){
+    
     std::string vsCode =
         "#version 330 core                                             \n"
         "layout (location = 0) in vec3 aPos;                           \n"
@@ -264,60 +266,91 @@ CameraBase::CameraBase() {
         "    FragColor = vec4(1.f, 0.f, 0.f, 1.f);                     \n"
         "}";
 
-    m_pShader = new Shader(vsCode, fsCode);
-
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cameraVertices), cameraVertices, GL_STATIC_DRAW);
+    mObjectMutex.lock();
+    if(mType == OBJECTTYPE::NONE){
+        m_pShader = new Shader(vsCode, fsCode);
     
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cameraIndices), cameraIndices, GL_STATIC_DRAW);
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glGenBuffers(1, &EBO);
+    
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(cameraVertices), cameraVertices, GL_STATIC_DRAW);
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cameraIndices), cameraIndices, GL_STATIC_DRAW);
+    
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+        mType = OBJECTTYPE::INITED;
+	}
+	mObjectMutex.unlock();
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+
 }
 
 CameraBase::~CameraBase() {
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
-
-    delete m_pShader;
-    m_pShader = NULL;
+    Unit();
 }
 
 void CameraBase::Draw() {
     glEnable(GL_DEPTH_TEST);
 
-    m_pShader->Use();
-    
-    m_pShader->SetMat4("view", m_viewMatrix);
-    m_pShader->SetMat4("model", m_modelMatrix);
-    m_pShader->SetMat4("project", m_projectMatrix);
-    
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(0 * sizeof(unsigned int)));
-    glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(5 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(10 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(15 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(20 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(25 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 39, GL_UNSIGNED_INT, (const void*)(30 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(69 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(113 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(157 * sizeof(unsigned int)));
-	glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(201 * sizeof(unsigned int)));
-    
-    m_pShader->UnUse();
-
+    mObjectMutex.lock();
+    if(mType == OBJECTTYPE::INITED){
+        m_pShader->Use();
+        
+        m_pShader->SetMat4("view", m_viewMatrix);
+        m_pShader->SetMat4("model", m_modelMatrix);
+        m_pShader->SetMat4("project", m_projectMatrix);
+        
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(0 * sizeof(unsigned int)));
+        glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(5 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(10 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(15 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(20 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, (const void*)(25 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 39, GL_UNSIGNED_INT, (const void*)(30 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(69 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(113 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(157 * sizeof(unsigned int)));
+	    glDrawElements(GL_TRIANGLE_STRIP, 44, GL_UNSIGNED_INT, (const void*)(201 * sizeof(unsigned int)));
+        
+        m_pShader->UnUse();
+	}
+    mObjectMutex.unlock();
     glDisable(GL_DEPTH_TEST);
+}
+
+void CameraBase::Unit(){
+	mObjectMutex.lock();
+	if(mType == OBJECTTYPE::INITED){
+	    if(VAO){
+            glDeleteVertexArrays(1, &VAO);
+	        VAO = 0;
+	    }
+        if(VBO){
+            glDeleteBuffers(1, &VBO);
+	        VBO = 0;
+	    }
+        if(EBO){
+            glDeleteBuffers(1, &EBO);
+	        EBO= 0;
+	    }
+        if(m_pShader){
+            delete m_pShader;
+            m_pShader = NULL;
+	    }
+    
+        mType = OBJECTTYPE::UNITED;
+	}
+	mObjectMutex.unlock();
 }

@@ -4,30 +4,20 @@
 #include <iostream>
 #include <memory>
 #include <memory.h>
-
+#include "RenderedObject.h"
 #include "Shader.h"
 
 #include "glew.h"
 
 
-class CameraBase{
+class CameraBase: public RenderedObject{
 public:
     typedef std::shared_ptr<CameraBase> ptr;
     CameraBase();
-    void Draw();
+    virtual void Init() override;
+    virtual void Draw() override;
+    virtual void Unit() override;
     ~CameraBase();
-
-    void SetModelMatrix(float* modelMatrix) {
-        memcpy(m_modelMatrix, modelMatrix, 16 * sizeof(float));
-    }
-
-    void SetViewMatrix(float* viewMatrix) {
-        memcpy(m_viewMatrix, viewMatrix, 16 * sizeof(float));
-    }
-
-    void SetProjectMatrix(float* projectMatrix) {
-        memcpy(m_projectMatrix, projectMatrix, 16 * sizeof(float));
-    }
 
     void SetShininess(float shininess) {
         m_shininess = shininess;
@@ -48,9 +38,6 @@ public:
     }
 
 private:
-    float m_modelMatrix[16];
-    float m_viewMatrix[16];
-    float m_projectMatrix[16];
 
     float m_shininess;
     float m_diffuseColor[4];
