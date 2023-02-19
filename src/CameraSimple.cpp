@@ -1,5 +1,6 @@
 #include <memory.h>
 #include <QDebug>
+#include "Matrices.h"
 #include "CameraSimple.h"
 
 static GLfloat cameraVertices[] = {
@@ -245,6 +246,12 @@ CameraBase::CameraBase() {
     m_projectMatrix[5] = 1.f;
     m_projectMatrix[10] = 1.f;
     m_projectMatrix[15] = 1.f;
+
+    m_shininess = 32.f;
+    m_direction[0] = 0.f; m_direction[1] = -1.f; m_direction[2] = -1.f;
+    m_ambient[0] = 0.4f; m_ambient[1] = 0.4f; m_ambient[2] = 0.6f;
+    m_diffuse[0] = 0.3f; m_diffuse[1] = 0.3f; m_diffuse[2] = 0.3f;
+    m_specular[0] = 0.1f; m_specular[1] = 0.1f; m_specular[2] = 0.1f;
 }
 
 void CameraBase::Init(){
@@ -252,18 +259,43 @@ void CameraBase::Init(){
     std::string vsCode =
         "#version 330 core                                             \n"
         "layout (location = 0) in vec3 aPos;                           \n"
+		"layout (location = 1) in vec3 aNormal;                        \n"
+        "out vec3 FragPos;                                             \n"
+        "out vec3 Normal;                                              \n"
         "uniform mat4 view;                                            \n"
         "uniform mat4 model;                                           \n"
         "uniform mat4 project;                                         \n"
         "void main(){                                                  \n"
         "    gl_Position = project * view * model * vec4(aPos, 1.f);   \n"
+		"    FragPos = vec3(model * vec4(aPos, 1.f));                  \n"
+		"    Normal = mat3(model) * aNormal;                           \n"
         "}";
 
     std::string fsCode =
         "#version 330 core                                             \n"
         "out vec4 FragColor;                                           \n"
+		"struct DirLight{                                              \n"
+		"    vec3 direction;                                           \n"
+		"    vec3 ambient;                                             \n"
+		"    vec3 diffuse;                                             \n"
+		"    vec3 specular;                                            \n"
+		"};                                                            \n"
+		"in vec3 FragPos;                                              \n"
+		"in vec3 Normal;                                               \n"
+		"uniform vec3 viewPos;                                         \n"
+		"uniform DirLight dirLight;                                    \n"
+		"uniform  float shininess;                                     \n"
         "void main(){                                                  \n"
-        "    FragColor = vec4(1.f, 0.f, 0.f, 1.f);                     \n"
+		"    vec3 norm = normalize(Normal);                            \n"
+		"    vec3 viewDir = normalize(viewPos - FragPos);              \n"
+		"    vec3 lightDir = normalize(-dirLight.direction);           \n"
+		"    float diff = max(dot(norm, lightDir), 0.f);               \n"
+		"    vec3 reflectDir = reflect(-lightDir, norm);               \n"
+		"    float spec = pow(max(dot(viewDir, reflectDir), 0.f), shininess);\n"
+		"    vec3 ambient = dirLight.ambient;                          \n"
+		"    vec3 diffuse = dirLight.diffuse;                          \n"
+		"    vec3 specular = dirLight.specular * spec;                 \n"
+        "    FragColor = vec4((ambient + diffuse + specular) + Normal, 1.f);      \n"
         "}";
 
     mObjectMutex.lock();
@@ -274,24 +306,40 @@ void CameraBase::Init(){
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
     
+        GLfloat* cameraInfo = new GLfloat[(sizeof(cameraVertices) + sizeof(cameraNormals)) / sizeof(float)];
+		int size = sizeof(cameraVertices) / sizeof(float) / 3;
+		for(int i = 0; i < size; ++ i){
+            cameraInfo[i * 6 + 0] = cameraVertices[i * 3 + 0];
+            cameraInfo[i * 6 + 1] = cameraVertices[i * 3 + 1];
+            cameraInfo[i * 6 + 2] = cameraVertices[i * 3 + 2];
+            cameraInfo[i * 6 + 3] = cameraNormals[i * 3 + 0];
+            cameraInfo[i * 6 + 4] = cameraNormals[i * 3 + 1];
+            cameraInfo[i * 6 + 5] = cameraNormals[i * 3 + 2];
+		}
+
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(cameraVertices), cameraVertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (sizeof(cameraVertices) + sizeof(cameraNormals)), cameraInfo, GL_STATIC_DRAW);
         
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(sizeof(float) * 3));
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cameraIndices), cameraIndices, GL_STATIC_DRAW);
     
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
     
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
-
+        if(cameraInfo){
+			delete[] cameraInfo;
+			cameraInfo = NULL;
+		}
         mType = OBJECTTYPE::INITED;
 	}
 	mObjectMutex.unlock();
-
-
 }
 
 CameraBase::~CameraBase() {
@@ -305,6 +353,17 @@ void CameraBase::Draw() {
     if(mType == OBJECTTYPE::INITED){
         m_pShader->Use();
         
+        Darker::Matrix4<float> matrix(m_viewMatrix);
+        Darker::Matrix4<float> matrixT = matrix.Transpose();
+		Darker::Matrix4<float> matrixInv = matrixT.InvertEuclidean();
+        
+        m_pShader->SetVec3("viewPos", matrixInv.GetTransform().data);
+		m_pShader->SetVec3("dirLight.direction", m_direction);
+		m_pShader->SetVec3("dirLight.ambient", m_ambient);
+		m_pShader->SetVec3("dirLight.diffuse", m_diffuse);
+		m_pShader->SetVec3("dirLight.specular", m_specular);
+		m_pShader->SetFloat("shininess", m_shininess);
+
         m_pShader->SetMat4("view", m_viewMatrix);
         m_pShader->SetMat4("model", m_modelMatrix);
         m_pShader->SetMat4("project", m_projectMatrix);
