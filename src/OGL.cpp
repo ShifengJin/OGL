@@ -44,7 +44,7 @@ OGL::OGL(QWidget* parent)
 
     mpCameraSimple->SetModelMatrix(cameraMatrix);
     mpCameraSimple->SetName("Camera Simple");
-    ((RendererWidget*)(ui->openGLWidget))->AddRenderedTarget(mpCameraSimple);
+    ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
     InitConnect();
 }
 
