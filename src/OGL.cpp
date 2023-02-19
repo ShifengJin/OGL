@@ -175,7 +175,8 @@ void OGL::ModelTZDoubleSpinBoxChanged(double value)
 void OGL::resizeEvent(QResizeEvent *event)
 {
     ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height, this->width(), parameter_height);
-    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height);
+    ui->openGLWidget->setGeometry(0, 0, this->width() / 2, this->height() - parameter_height);
+    ui->CameraViewWidget->setGeometry(this->width() / 2, 0, this->width() / 2, this->height() - parameter_height);
 }
 
 void OGL::SetLabelMatrix(QLabel *label, float matrix[])

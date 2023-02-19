@@ -36,7 +36,6 @@ void RendererWidget::drawTargets(){
     mRenderedObjectsMutex.unlock();
 }
 
-
 void RendererWidget::mouseMoveEvent(QMouseEvent* e){
     if(m_leftMousePressed){
         qDebug() << "left mouse button move.";
