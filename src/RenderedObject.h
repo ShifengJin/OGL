@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <string.h>
 #include <mutex>
 
 enum class OBJECTTYPE{
@@ -59,7 +60,7 @@ protected:
     std::string mName = "Object";
     OBJECTTYPE mType = OBJECTTYPE::NONE;
     std::mutex mObjectMutex;
-
+public:
     float m_modelMatrix[16];
     float m_viewMatrix[16];
     float m_projectMatrix[16];

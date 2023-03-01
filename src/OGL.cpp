@@ -11,7 +11,8 @@ OGL::OGL(QWidget* parent)
     ui->setupUi(this);
 
     mpCameraSimple = CameraBase::ptr(new CameraBase());
-
+    //mpObservedObject = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
+    mpObservedObjectCameraShow = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
     parameter_width = ui->Param_GroupBox->width();
     parameter_height = ui->Param_GroupBox->height();
 
@@ -45,6 +46,16 @@ OGL::OGL(QWidget* parent)
     mpCameraSimple->SetModelMatrix(cameraMatrix);
     mpCameraSimple->SetName("Camera Simple");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
+    //mpObservedObject->SetModelMatrix(observedModelMatrix);
+    //mpObservedObject->SetName("nanosuit");
+    //((RendererWidget*)(ui->openGLWidget))->AddTarget(mpObservedObject, mpObservedObject->GetName());
+
+    mpObservedObjectCameraShow->SetModelMatrix(observedModelMatrix);
+    mpObservedObjectCameraShow->SetViewMatrix(cameraViewMatrix);
+    mpObservedObjectCameraShow->SetName("nanosuit1");
+    
+
+    ((RenderedBaseWidget*)(ui->CameraViewWidget))->AddTarget(mpObservedObjectCameraShow, mpObservedObjectCameraShow->GetName());
     InitConnect();
 }
 
@@ -52,6 +63,8 @@ OGL::~OGL()
 {
     UnitConnect();
     mpCameraSimple.reset();
+    //mpObservedObject.reset();
+    mpObservedObjectCameraShow.reset();
     delete ui;
 }
 
@@ -338,6 +351,9 @@ void OGL::updateCameraViewMatrix(){
     Darker::Matrix4<float> matrix(cameraMatrix);
     matrix.InvertAffinne();
     memcpy(cameraViewMatrix, matrix.Data(), 16 * sizeof(float));
+
+    Darker::Matrix4<float> view = matrix.InvertAffinne().Transpose();
+    mpObservedObjectCameraShow->SetViewMatrix(view.Data());
 }
 
 void OGL::updateXObservedAngle(float xObservedAngle){
@@ -384,4 +400,9 @@ void OGL::updateObservedMatrix(){
     Darker::Matrix4<float> matrix;
     matrix = tMatrix * xMatrix * yMatrix * zMatrix;
     memcpy(observedModelMatrix, matrix.Data(), 16 * sizeof(float));
+
+    Darker::Matrix4<float> m = matrix.Transpose();
+    //mpObservedObject->SetModelMatrix(m.Data());
+
+    mpObservedObjectCameraShow->SetModelMatrix(m.Data());
 }

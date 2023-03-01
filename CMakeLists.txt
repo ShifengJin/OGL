@@ -21,20 +21,21 @@ endif()
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
 
-
-
 include_directories(${OPENGL_INCLUDE_DIR}
                     ${GLEW_INCLUDE_DIRS}
                     ${GLEW_INCLUDE_DIRS}/GL
+                    ${CMAKE_SOURCE_DIR}/Assimp
+                    ${CMAKE_SOURCE_DIR}/glm
                     ./src)
 
 # Specify MSVC UTF-8 encoding   
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
+
 add_executable(${PROJECT_NAME}
     WIN32 # If you need a terminal for debug, please comment this statement 
     ${srcs} 
 ) 
 # target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES}) # Qt5 Shared LibraryCMakeLists.txt
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES}) # Qt5 Shared LibraryCMakeLists.txt
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES} ${CMAKE_SOURCE_DIR}/Assimp/lib/libassimp.so.5) # Qt5 Shared LibraryCMakeLists.txt

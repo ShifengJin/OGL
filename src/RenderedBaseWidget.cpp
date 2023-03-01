@@ -85,6 +85,30 @@ void RenderedBaseWidget::drawTargets(){
     while(it != mRenderedObjects.end()){
         if(it->second->GetType() == OBJECTTYPE::INITED){
             it->second->SetProjectMatrix(m_projectMatrix);
+            #if 0
+            std::cout << it->second->GetName() << std::endl;
+            std::cout << "modelMatrix: " << std::endl;
+            for(int i = 0; i < 4; ++ i){
+                for(int j = 0; j < 4; ++ j){
+                    std::cout << it->second->m_modelMatrix[i * 4 + j] << ", ";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << "viewMatrix: " << std::endl;
+            for(int i = 0; i < 4; ++ i){
+                for(int j = 0; j < 4; ++ j){
+                    std::cout << it->second->m_viewMatrix[i * 4 + j] << ", ";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << "projectMatrix: " << std::endl;
+            for(int i = 0; i < 4; ++ i){
+                for(int j = 0; j < 4; ++ j){
+                    std::cout << it->second->m_projectMatrix[i * 4 + j] << ", ";
+                }
+                std::cout << std::endl;
+            }
+            #endif
             it->second->Draw();
         }
         it++;
@@ -94,13 +118,7 @@ void RenderedBaseWidget::drawTargets(){
 
 void RenderedBaseWidget::unInitializedTargets(){
     mRenderedObjectsMutex.lock();
-    std::map<std::string, RenderedObject::ptr>::iterator it = mRenderedObjects.begin();
-    while(it != mRenderedObjects.end()){
-        if(it->second->GetType() == OBJECTTYPE::INITED){
-            it->second->Unit();
-        }
-        it++;
-    }
+    mRenderedObjects.clear();
     mRenderedObjectsMutex.unlock();
 }
 
@@ -113,7 +131,7 @@ void RenderedBaseWidget::initializeGL(){
 
 void RenderedBaseWidget::resizeGL(int w, int h){
     glViewport(0, 0, w, h);
-    ComputeProjectMatrix_OpenGL(60.f, w * 1.f / h, 0.01f, 100.f, m_projectMatrix);
+    ComputeProjectMatrix_OpenGL(60.f, w * 1.f / h, 0.01f, 1000000.f, m_projectMatrix);
 }
 
 void RenderedBaseWidget::paintGL(){

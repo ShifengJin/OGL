@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QResizeEvent>
 #include "CameraSimple.h"
+#include "ObservedObject.h"
 
 class OGL : public QMainWindow {
     Q_OBJECT
@@ -81,6 +82,8 @@ private:
     Ui_OGL* ui;
 
     CameraBase::ptr mpCameraSimple;
+    ObservedObject::ptr mpObservedObject;
+    ObservedObject::ptr mpObservedObjectCameraShow;
 };
 
 #endif

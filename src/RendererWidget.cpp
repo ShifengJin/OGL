@@ -38,7 +38,7 @@ void RendererWidget::drawTargets(){
 
 void RendererWidget::mouseMoveEvent(QMouseEvent* e){
     if(m_leftMousePressed){
-        qDebug() << "left mouse button move.";
+        //qDebug() << "left mouse button move.";
 
         m_xStart = m_xCur;
         m_yStart = m_yCur;
