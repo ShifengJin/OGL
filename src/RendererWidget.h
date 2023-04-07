@@ -18,8 +18,6 @@ protected:
     virtual void drawTargets() override;
 
 private:
-    float m_viewMatrix[16];
-    
     bool m_leftMousePressed = false;
     float m_xStart, m_yStart, m_xCur, m_yCur;
 };

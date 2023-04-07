@@ -2,13 +2,16 @@ cmake_minimum_required(VERSION 3.5) # CMake install : https://cmake.org/download
 project(OGL LANGUAGES CXX)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_PREFIX_PATH "/home/shifeng/Qt5.14.2/5.14.2/gcc_64") # Qt Kit Dir
+set(CMAKE_PREFIX_PATH "/home/shifengjin/Qt5.14.2/5.14.2/gcc_64") # Qt Kit Dir
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+set(Qt5_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5")
+set(Qt5Widgets_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Qt5Widgets")
 find_package(Qt5 COMPONENTS Widgets Core Gui REQUIRED) # Qt COMPONENTS
 
 aux_source_directory(./src srcs)

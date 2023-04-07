@@ -1,7 +1,7 @@
+#include <QDebug>
 #include <iostream>
 
 #include "RenderedBaseWidget.h"
-
 
 RenderedBaseWidget::RenderedBaseWidget(QWidget *parent)
     :QOpenGLWidget(parent)
@@ -85,6 +85,7 @@ void RenderedBaseWidget::drawTargets(){
     while(it != mRenderedObjects.end()){
         if(it->second->GetType() == OBJECTTYPE::INITED){
             it->second->SetProjectMatrix(m_projectMatrix);
+            it->second->SetViewMatrix(m_viewMatrix);
             #if 0
             std::cout << it->second->GetName() << std::endl;
             std::cout << "modelMatrix: " << std::endl;
@@ -137,10 +138,10 @@ void RenderedBaseWidget::resizeGL(int w, int h){
 void RenderedBaseWidget::paintGL(){
     glClearColor(0.0f, 0.0f, 0.0f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    
     // make sure the RenderedObject is visible before drawing
     makeSureTargetsAreInitialized();
-
+    
     drawTargets();
 
     glDisable(GL_DEPTH_TEST);

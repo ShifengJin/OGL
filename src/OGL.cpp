@@ -11,8 +11,8 @@ OGL::OGL(QWidget* parent)
     ui->setupUi(this);
 
     mpCameraSimple = CameraBase::ptr(new CameraBase());
-    //mpObservedObject = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
-    mpObservedObjectCameraShow = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
+    mpObservedObject = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
+    mpObservedObject1 = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
     parameter_width = ui->Param_GroupBox->width();
     parameter_height = ui->Param_GroupBox->height();
 
@@ -46,16 +46,14 @@ OGL::OGL(QWidget* parent)
     mpCameraSimple->SetModelMatrix(cameraMatrix);
     mpCameraSimple->SetName("Camera Simple");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
-    //mpObservedObject->SetModelMatrix(observedModelMatrix);
-    //mpObservedObject->SetName("nanosuit");
-    //((RendererWidget*)(ui->openGLWidget))->AddTarget(mpObservedObject, mpObservedObject->GetName());
+    mpObservedObject->SetModelMatrix(observedModelMatrix);
+    mpObservedObject->SetName("nanosuit");
+    ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpObservedObject, mpObservedObject->GetName());
 
-    mpObservedObjectCameraShow->SetModelMatrix(observedModelMatrix);
-    mpObservedObjectCameraShow->SetViewMatrix(cameraViewMatrix);
-    mpObservedObjectCameraShow->SetName("nanosuit1");
-    
-
-    ((RenderedBaseWidget*)(ui->CameraViewWidget))->AddTarget(mpObservedObjectCameraShow, mpObservedObjectCameraShow->GetName());
+    mpObservedObject1->SetModelMatrix(observedModelMatrix);
+    mpObservedObject1->SetName("nanosuit");
+    ((RenderedBaseWidget*)(ui->CameraViewWidget))->SetViewMatrix(cameraViewMatrix);
+    ((RenderedBaseWidget*)(ui->CameraViewWidget))->AddTarget(mpObservedObject1, mpObservedObject1->GetName());
     InitConnect();
 }
 
@@ -63,14 +61,13 @@ OGL::~OGL()
 {
     UnitConnect();
     mpCameraSimple.reset();
-    //mpObservedObject.reset();
-    mpObservedObjectCameraShow.reset();
+    mpObservedObject.reset();
+    mpObservedObject1.reset();
     delete ui;
 }
 
 void OGL::CameraAngleXDoubleSpinBoxChanged(double value)
 {
-    qDebug() << value;
     xCameraAngle = (float)value;
     updateXCameraAngle(xCameraAngle);
     updateCameraMatrix();
@@ -345,6 +342,7 @@ void OGL::updateCameraMatrix(){
     Darker::Matrix4<float> camMatrix;
     camMatrix = matrix.Transpose();
     mpCameraSimple->SetModelMatrix(camMatrix.Data());
+
 }
 
 void OGL::updateCameraViewMatrix(){
@@ -352,8 +350,9 @@ void OGL::updateCameraViewMatrix(){
     matrix.InvertAffinne();
     memcpy(cameraViewMatrix, matrix.Data(), 16 * sizeof(float));
 
-    Darker::Matrix4<float> view = matrix.InvertAffinne().Transpose();
-    mpObservedObjectCameraShow->SetViewMatrix(view.Data());
+    Darker::Matrix4<float> viewMatrix(cameraViewMatrix);
+    viewMatrix.Transpose();
+    ((RenderedBaseWidget*)(ui->CameraViewWidget))->SetViewMatrix(matrix.Data());
 }
 
 void OGL::updateXObservedAngle(float xObservedAngle){
@@ -402,7 +401,8 @@ void OGL::updateObservedMatrix(){
     memcpy(observedModelMatrix, matrix.Data(), 16 * sizeof(float));
 
     Darker::Matrix4<float> m = matrix.Transpose();
-    //mpObservedObject->SetModelMatrix(m.Data());
+    mpObservedObject->SetModelMatrix(m.Data());
 
-    mpObservedObjectCameraShow->SetModelMatrix(m.Data());
+
+    mpObservedObject1->SetModelMatrix(m.Data());
 }

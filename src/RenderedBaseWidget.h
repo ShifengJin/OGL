@@ -19,6 +19,12 @@ public:
     bool RemoveTarget(RenderedObject::ptr object);
     bool RemoveTarget(std::string name);
 
+    void SetViewMatrix(float viewMatrix[16]){
+        mRenderedObjectsMutex.lock();
+        memcpy(m_viewMatrix, viewMatrix, 16 * sizeof(float));
+        mRenderedObjectsMutex.unlock();
+    }
+
 protected:
     virtual void initializeGL() override;
     virtual void resizeGL(int w, int h) override;
@@ -43,6 +49,7 @@ protected:
     }
     
     float m_projectMatrix[16];
+    float m_viewMatrix[16];
 };
 
 #endif

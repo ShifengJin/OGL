@@ -83,7 +83,7 @@ private:
 
     CameraBase::ptr mpCameraSimple;
     ObservedObject::ptr mpObservedObject;
-    ObservedObject::ptr mpObservedObjectCameraShow;
+    ObservedObject::ptr mpObservedObject1;
 };
 
 #endif
