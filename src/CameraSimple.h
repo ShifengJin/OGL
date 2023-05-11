@@ -4,10 +4,43 @@
 #include <iostream>
 #include <memory>
 #include <memory.h>
+#include "Common.h"
 #include "RenderedObject.h"
 #include "Shader.h"
 
 #include "glew.h"
+
+class CameraInner{
+public:
+    typedef std::shared_ptr<CameraInner> ptr;
+
+    CameraInner() = delete;    
+
+    CameraInner(float near, float far, float cx, float cy, float fx, float fy){
+        m_near = near;
+        m_far = far;
+        m_cx = cx;
+        m_cy = cy;
+        m_fx = fx;
+        m_fy = fy;
+        m_fov = (float)(atan2(cy, fy) * RAD2ANG * 2.);
+    }
+
+    CameraInner(float near, float far, float cx, float cy, float fov){
+        m_near = near;
+        m_far = far;
+        m_cx = cx;
+        m_cy = cy;
+        m_fov = fov;
+        
+    }
+
+    float m_near;
+    float m_far;
+    float m_cx, m_cy;
+    float m_fx, m_fy;
+    float m_fov;
+};
 
 
 class CameraBase: public RenderedObject{

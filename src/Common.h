@@ -9,6 +9,9 @@
 
 using namespace Darker;
 
+#define RAD2ANG 57.29577951308232  // (180. / 3.14159265358979323846)
+#define ANG2RAD 0.017453292519943295 //(3.14159265358979323846 / 180.)
+
 namespace DarkerOGL {
 
 	class Line2D {
