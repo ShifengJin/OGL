@@ -5,6 +5,7 @@
 #include <QtWidgets/QOpenGLWidget>
 #include <mutex>
 #include <map>
+#include "Common.h"
 #include "Matrices.h"
 #include "RenderedObject.h"
 
@@ -37,19 +38,9 @@ protected:
     virtual void drawTargets();
     virtual void unInitializedTargets();
 
-    void ComputeProjectMatrix_OpenGL(float fov, float aspect, float zNear, float zFar, float* oProjectMatrix) {
-        float tanHalfFovy = tanf(fov / 2.f * DEG2RAD);
-        memset(oProjectMatrix, 0, sizeof(float) * 16);
-
-        oProjectMatrix[0] = 1.f / (aspect * tanHalfFovy);
-        oProjectMatrix[5] = 1.f / tanHalfFovy;
-        oProjectMatrix[10] = -(zFar + zNear) / (zFar - zNear);
-        oProjectMatrix[11] = -1.f;
-        oProjectMatrix[14] = -(2 * zFar * zNear) / (zFar - zNear);
-    }
-    
-    float m_projectMatrix[16];
     float m_viewMatrix[16];
+
+    CameraInner::ptr mpCameraInner;
 };
 
 #endif

@@ -352,7 +352,7 @@ void OGL::updateCameraViewMatrix(){
 
     Darker::Matrix4<float> viewMatrix(cameraViewMatrix);
     viewMatrix.Transpose();
-    ((RenderedBaseWidget*)(ui->CameraViewWidget))->SetViewMatrix(matrix.Data());
+    ((RenderedBaseWidget*)(ui->CameraViewWidget))->SetViewMatrix(viewMatrix.Data());
 }
 
 void OGL::updateXObservedAngle(float xObservedAngle){

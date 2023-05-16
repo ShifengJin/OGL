@@ -5,10 +5,13 @@
 
 RenderedBaseWidget::RenderedBaseWidget(QWidget *parent)
     :QOpenGLWidget(parent)
-{}
+{
+    mpCameraInner = CameraInner::ptr(new CameraInner(0.1f, 1000.0f, 320.f, 240.f, 60.f, 640, 480));
+}
 
 RenderedBaseWidget::~RenderedBaseWidget(){
     unInitializedTargets();
+    mpCameraInner.reset();
     mRenderedObjectsMutex.lock();
     mRenderedObjects.clear();
     mRenderedObjectsMutex.unlock();
@@ -84,32 +87,8 @@ void RenderedBaseWidget::drawTargets(){
     std::map<std::string, RenderedObject::ptr>::iterator it = mRenderedObjects.begin();
     while(it != mRenderedObjects.end()){
         if(it->second->GetType() == OBJECTTYPE::INITED){
-            it->second->SetProjectMatrix(m_projectMatrix);
+            it->second->SetProjectMatrix(mpCameraInner->m_projectMatrix);
             it->second->SetViewMatrix(m_viewMatrix);
-            #if 0
-            std::cout << it->second->GetName() << std::endl;
-            std::cout << "modelMatrix: " << std::endl;
-            for(int i = 0; i < 4; ++ i){
-                for(int j = 0; j < 4; ++ j){
-                    std::cout << it->second->m_modelMatrix[i * 4 + j] << ", ";
-                }
-                std::cout << std::endl;
-            }
-            std::cout << "viewMatrix: " << std::endl;
-            for(int i = 0; i < 4; ++ i){
-                for(int j = 0; j < 4; ++ j){
-                    std::cout << it->second->m_viewMatrix[i * 4 + j] << ", ";
-                }
-                std::cout << std::endl;
-            }
-            std::cout << "projectMatrix: " << std::endl;
-            for(int i = 0; i < 4; ++ i){
-                for(int j = 0; j < 4; ++ j){
-                    std::cout << it->second->m_projectMatrix[i * 4 + j] << ", ";
-                }
-                std::cout << std::endl;
-            }
-            #endif
             it->second->Draw();
         }
         it++;
@@ -132,7 +111,7 @@ void RenderedBaseWidget::initializeGL(){
 
 void RenderedBaseWidget::resizeGL(int w, int h){
     glViewport(0, 0, w, h);
-    ComputeProjectMatrix_OpenGL(60.f, w * 1.f / h, 0.01f, 1000000.f, m_projectMatrix);
+    mpCameraInner->SetSize(w, h);
 }
 
 void RenderedBaseWidget::paintGL(){

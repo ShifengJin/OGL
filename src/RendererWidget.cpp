@@ -27,7 +27,7 @@ void RendererWidget::drawTargets(){
     std::map<std::string, RenderedObject::ptr>::iterator it = mRenderedObjects.begin();
     while(it != mRenderedObjects.end()){
         if(it->second->GetType() == OBJECTTYPE::INITED){
-            it->second->SetProjectMatrix(m_projectMatrix);
+            it->second->SetProjectMatrix(mpCameraInner->m_projectMatrix);
             it->second->SetViewMatrix(m_viewMatrix);
             it->second->Draw();
         }
