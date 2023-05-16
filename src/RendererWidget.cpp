@@ -37,7 +37,7 @@ void RendererWidget::drawTargets(){
 }
 
 void RendererWidget::mouseMoveEvent(QMouseEvent* e){
-    if(m_leftMousePressed){
+    if(e->buttons() == Qt::LeftButton){
         //qDebug() << "left mouse button move.";
 
         m_xStart = m_xCur;
@@ -55,8 +55,8 @@ void RendererWidget::mouseMoveEvent(QMouseEvent* e){
         Darker::Matrix4<float> yRotate4x4;
         Darker::Matrix4<float> xRotate4x4;
 
-        yRotate4x4.RotateY(m_xCur - m_xStart);
-        xRotate4x4.RotateX(m_yCur - m_yStart);
+        yRotate4x4.RotateY((m_xCur - m_xStart)*0.3f);
+        xRotate4x4.RotateX((m_yCur - m_yStart)*0.3f);
 
         Darker::Matrix3<float> yRotateMatrix = yRotate4x4.GetRotationMatrix();
         Darker::Matrix3<float> xRotateMatrix = xRotate4x4.GetRotationMatrix();
@@ -67,22 +67,42 @@ void RendererWidget::mouseMoveEvent(QMouseEvent* e){
 
         endViewMatrixTrp.Transpose();
         memcpy(m_viewMatrix, endViewMatrixTrp.Data(), 16 * sizeof(float));
+    }else if(e->buttons() == Qt::RightButton){
+        m_right_xStart = m_right_xCur;
+        m_right_yStart = m_right_yCur;
+        m_right_xCur = (float)(e->x());
+        m_right_yCur = (float)(e->y());
+
+        Darker::Matrix4<float> viewMatrixTrp(m_viewMatrix);
+        viewMatrixTrp.Transpose();
+        
+        Darker::Matrix3<float> srcRotateMatrix = viewMatrixTrp.GetRotationMatrix();
+        Darker::Vector3<float> srcTransform = viewMatrixTrp.GetTransform();
+        Darker::Vector3<float> offsetTransform(m_right_xCur-m_right_xStart, -m_right_yCur+m_right_yStart, 0.f);
+        Darker::Vector3<float> transform = srcTransform+offsetTransform*0.01f;
+        Darker::Matrix4<float> endViewMatrixTrp(srcRotateMatrix, transform);   
+        endViewMatrixTrp.Transpose();
+        memcpy(m_viewMatrix, endViewMatrixTrp.Data(), 16 * sizeof(float));     
     }
 }
 
 void RendererWidget::mousePressEvent(QMouseEvent* e){
-    if(e->button()==Qt::LeftButton){
-        qDebug() << "left mouse button pressed.";
+    if(e->buttons()==Qt::LeftButton){
+        // qDebug() << "left mouse button pressed.";
         m_xStart = (float)(e->x());
         m_yStart = (float)(e->y());
         m_xCur = m_xStart;
         m_yCur = m_yStart;
-        m_leftMousePressed = true;
+    }else if(e->buttons() == Qt::RightButton){
+        m_right_xStart = (float)(e->x());
+        m_right_yStart = (float)(e->y());
+        m_right_xCur = m_right_xStart;
+        m_right_yCur = m_right_yStart;
     }
 }
     
 void RendererWidget::mouseReleaseEvent(QMouseEvent* e){
-    if(e->button()==Qt::LeftButton){
+    if(e->buttons()==Qt::LeftButton){
         qDebug() << "left mouse button released.";
 
         m_xStart = m_xCur;
@@ -99,8 +119,8 @@ void RendererWidget::mouseReleaseEvent(QMouseEvent* e){
         Darker::Matrix4<float> yRotate4x4;
         Darker::Matrix4<float> xRotate4x4;
 
-        yRotate4x4.RotateY(m_xCur - m_xStart);
-        xRotate4x4.RotateX(m_yCur - m_yStart);
+        yRotate4x4.RotateY((m_xCur - m_xStart)*0.3f);
+        xRotate4x4.RotateX((m_yCur - m_yStart)*0.3f);
 
         Darker::Matrix3<float> yRotateMatrix = yRotate4x4.GetRotationMatrix();
         Darker::Matrix3<float> xRotateMatrix = xRotate4x4.GetRotationMatrix();
@@ -111,6 +131,35 @@ void RendererWidget::mouseReleaseEvent(QMouseEvent* e){
 
         endViewMatrixTrp.Transpose();
         memcpy(m_viewMatrix, endViewMatrixTrp.Data(), 16 * sizeof(float));
-        m_leftMousePressed = false;
+    }else if(e->buttons() == Qt::RightButton){
+        m_right_xStart = m_right_xCur;
+        m_right_yStart = m_right_yCur;
+        m_right_xCur = (float)(e->x());
+        m_right_yCur = (float)(e->y());
+
+        Darker::Matrix4<float> viewMatrixTrp(m_viewMatrix);
+        viewMatrixTrp.Transpose();
+        
+        Darker::Matrix3<float> srcRotateMatrix = viewMatrixTrp.GetRotationMatrix();
+        Darker::Vector3<float> srcTransform = viewMatrixTrp.GetTransform();
+        Darker::Vector3<float> offsetTransform(m_right_xCur-m_right_xStart, -m_right_yCur+m_right_yStart, 0.f);
+        Darker::Vector3<float> transform = srcTransform+offsetTransform*0.01f;
+        Darker::Matrix4<float> endViewMatrixTrp(srcRotateMatrix, transform);        
+        endViewMatrixTrp.Transpose();
+        memcpy(m_viewMatrix, endViewMatrixTrp.Data(), 16 * sizeof(float)); 
     }
+}
+
+void RendererWidget::wheelEvent(QWheelEvent* e){
+    float delta = e->delta();
+    Darker::Matrix4<float> viewMatrixTrp(m_viewMatrix);
+    viewMatrixTrp.Transpose();
+    
+    Darker::Matrix3<float> srcRotateMatrix = viewMatrixTrp.GetRotationMatrix();
+    Darker::Vector3<float> srcTransform = viewMatrixTrp.GetTransform();
+    Darker::Vector3<float> offsetTransform(0.f, 0.f, delta);
+    Darker::Vector3<float> transform = srcTransform+offsetTransform*0.01f;
+    Darker::Matrix4<float> endViewMatrixTrp(srcRotateMatrix, transform);        
+    endViewMatrixTrp.Transpose();
+    memcpy(m_viewMatrix, endViewMatrixTrp.Data(), 16 * sizeof(float)); 
 }
