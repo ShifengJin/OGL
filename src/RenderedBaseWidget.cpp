@@ -110,18 +110,45 @@ void RenderedBaseWidget::initializeGL(){
 }
 
 void RenderedBaseWidget::resizeGL(int w, int h){
-    glViewport(0, 0, w, h);
-    mpCameraInner->SetSize(w, h);
+    mpCameraInner->SetSize(w*0.5f, h);
 }
 
 void RenderedBaseWidget::paintGL(){
     glClearColor(0.0f, 0.0f, 0.0f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glViewport(0, 0, mpCameraInner->m_width, mpCameraInner->m_height);
     
     // make sure the RenderedObject is visible before drawing
     makeSureTargetsAreInitialized();
     
     drawTargets();
+
+
+    glViewport(mpCameraInner->m_width, 0, mpCameraInner->m_width, mpCameraInner->m_height);
+    
+    // 
+    mRenderedObjectsMutex.lock();
+    std::map<std::string, RenderedObject::ptr>::iterator it = mRenderedObjects.begin();
+    std::string targetName = "Camera";
+    if(mRenderedObjects.find(targetName) != mRenderedObjects.end()){
+        if(mRenderedObjects[targetName]->GetType() == OBJECTTYPE::INITED){
+            Darker::Matrix4<float> cameraPoseTrp(mRenderedObjects[targetName]->m_modelMatrix);
+            cameraPoseTrp.Transpose();
+            cameraPoseTrp.InvertEuclidean();
+            cameraPoseTrp.Transpose();
+            while(it != mRenderedObjects.end()){
+                if(it->second->GetType() == OBJECTTYPE::INITED && it->first != targetName){
+                    it->second->SetProjectMatrix(mpCameraInner->m_projectMatrix);
+                    it->second->SetViewMatrix(cameraPoseTrp.Data());
+                    it->second->Draw();
+                }
+                it++;
+            }
+        }
+    }
+    mRenderedObjectsMutex.unlock();
+
 
     glDisable(GL_DEPTH_TEST);
 

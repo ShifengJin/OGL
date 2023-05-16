@@ -22,7 +22,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>640</width>
+      <width>1280</width>
       <height>480</height>
      </rect>
     </property>
@@ -656,16 +656,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="RenderedBaseWidget" name="CameraViewWidget">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>0</y>
-      <width>640</width>
-      <height>480</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -673,11 +663,6 @@
    <class>RendererWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>RendererWidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RenderedBaseWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>RenderedBaseWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

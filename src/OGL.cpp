@@ -12,7 +12,6 @@ OGL::OGL(QWidget* parent)
 
     mpCameraSimple = CameraBase::ptr(new CameraBase());
     mpObservedObject = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
-    mpObservedObject1 = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
     parameter_width = ui->Param_GroupBox->width();
     parameter_height = ui->Param_GroupBox->height();
 
@@ -44,16 +43,11 @@ OGL::OGL(QWidget* parent)
     SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 
     mpCameraSimple->SetModelMatrix(cameraMatrix);
-    mpCameraSimple->SetName("Camera Simple");
+    mpCameraSimple->SetName("Camera");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
     mpObservedObject->SetModelMatrix(observedModelMatrix);
     mpObservedObject->SetName("nanosuit");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpObservedObject, mpObservedObject->GetName());
-
-    mpObservedObject1->SetModelMatrix(observedModelMatrix);
-    mpObservedObject1->SetName("nanosuit");
-    ((RenderedBaseWidget*)(ui->CameraViewWidget))->SetViewMatrix(cameraViewMatrix);
-    ((RenderedBaseWidget*)(ui->CameraViewWidget))->AddTarget(mpObservedObject1, mpObservedObject1->GetName());
     InitConnect();
 }
 
@@ -62,7 +56,6 @@ OGL::~OGL()
     UnitConnect();
     mpCameraSimple.reset();
     mpObservedObject.reset();
-    mpObservedObject1.reset();
     delete ui;
 }
 
@@ -185,8 +178,7 @@ void OGL::ModelTZDoubleSpinBoxChanged(double value)
 void OGL::resizeEvent(QResizeEvent *event)
 {
     ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height, this->width(), parameter_height);
-    ui->openGLWidget->setGeometry(0, 0, this->width() / 2, this->height() - parameter_height);
-    ui->CameraViewWidget->setGeometry(this->width() / 2, 0, this->width() / 2, this->height() - parameter_height);
+    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height);
 }
 
 void OGL::SetLabelMatrix(QLabel *label, float matrix[])
@@ -349,10 +341,6 @@ void OGL::updateCameraViewMatrix(){
     Darker::Matrix4<float> matrix(cameraMatrix);
     matrix.InvertAffinne();
     memcpy(cameraViewMatrix, matrix.Data(), 16 * sizeof(float));
-
-    Darker::Matrix4<float> viewMatrix(cameraViewMatrix);
-    viewMatrix.Transpose();
-    ((RenderedBaseWidget*)(ui->CameraViewWidget))->SetViewMatrix(viewMatrix.Data());
 }
 
 void OGL::updateXObservedAngle(float xObservedAngle){
@@ -402,7 +390,4 @@ void OGL::updateObservedMatrix(){
 
     Darker::Matrix4<float> m = matrix.Transpose();
     mpObservedObject->SetModelMatrix(m.Data());
-
-
-    mpObservedObject1->SetModelMatrix(m.Data());
 }

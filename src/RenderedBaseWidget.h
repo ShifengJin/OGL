@@ -36,6 +36,7 @@ protected:
 
     virtual void makeSureTargetsAreInitialized();
     virtual void drawTargets();
+    
     virtual void unInitializedTargets();
 
     float m_viewMatrix[16];
