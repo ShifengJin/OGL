@@ -1,4 +1,0 @@
-/home/shifengjin/Project/OGL/build/CMakeFiles/rebuild_cache.dir
-/home/shifengjin/Project/OGL/build/CMakeFiles/edit_cache.dir
-/home/shifengjin/Project/OGL/build/CMakeFiles/OGL.dir
-/home/shifengjin/Project/OGL/build/CMakeFiles/OGL_autogen.dir
