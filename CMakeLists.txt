@@ -41,4 +41,4 @@ add_executable(${PROJECT_NAME}
     ${srcs} 
 ) 
 # target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES}) # Qt5 Shared LibraryCMakeLists.txt
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES} ${CMAKE_SOURCE_DIR}/Assimp/lib/libassimp.so.5) # Qt5 Shared LibraryCMakeLists.txt
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES} ${CMAKE_SOURCE_DIR}/Assimp/lib/libassimp.so) # Qt5 Shared LibraryCMakeLists.txt
