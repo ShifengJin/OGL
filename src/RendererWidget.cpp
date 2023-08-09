@@ -14,7 +14,7 @@ RendererWidget::RendererWidget(QWidget* parent)
     m_viewMatrix[0] = 1.f; m_viewMatrix[1] = 0.f; m_viewMatrix[2] = 0.f; m_viewMatrix[3] = 0.f;
     m_viewMatrix[4] = 0.f; m_viewMatrix[5] = 1.f; m_viewMatrix[6] = 0.f; m_viewMatrix[7] = 0.f;
     m_viewMatrix[8] = 0.f; m_viewMatrix[9] = 0.f; m_viewMatrix[10] = 1.f; m_viewMatrix[11] = 0.f;
-    m_viewMatrix[12] = 0.f; m_viewMatrix[13] = 0.f; m_viewMatrix[14] = -5.f; m_viewMatrix[15] = 1.f;
+    m_viewMatrix[12] = 0.f; m_viewMatrix[13] = 0.f; m_viewMatrix[14] = 0.f; m_viewMatrix[15] = 1.f;
 }
 
 RendererWidget::~RendererWidget()

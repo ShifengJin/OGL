@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>940</height>
+    <width>1282</width>
+    <height>999</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -655,6 +655,28 @@
       <string/>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="Reset_PB">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>940</y>
+      <width>181</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reset</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
    </widget>
   </widget>
  </widget>

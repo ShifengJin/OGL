@@ -29,7 +29,7 @@ public slots:
     void ModelTYDoubleSpinBoxChanged(double value);
     void ModelTZDoubleSpinBoxChanged(double value);
 
-
+    void ResetPushButtonClicked();
 
 public:
     void resizeEvent(QResizeEvent *event);
@@ -77,6 +77,8 @@ private:
 private:
     int parameter_width = 0;
     int parameter_height = 0;
+    int reset_width = 0;
+    int reset_height = 0;
 
 private:
     Ui_OGL* ui;

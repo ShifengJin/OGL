@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <sstream>
+#include <QPushButton>
 #include "Common.h"
 #include "CameraSimple.h"
 #include "OGL.h"
@@ -14,6 +15,8 @@ OGL::OGL(QWidget* parent)
     mpObservedObject = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
     parameter_width = ui->Param_GroupBox->width();
     parameter_height = ui->Param_GroupBox->height();
+    reset_width = ui->Reset_PB->width();
+    reset_height = ui->Reset_PB->height();
 
     Darker::Matrix4<float> identity;
     memcpy(xCameraMatrix, identity.Data(), 16*sizeof(float));
@@ -45,6 +48,7 @@ OGL::OGL(QWidget* parent)
     mpCameraSimple->SetModelMatrix(cameraMatrix);
     mpCameraSimple->SetName("Camera");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
+
     mpObservedObject->SetModelMatrix(observedModelMatrix);
     mpObservedObject->SetName("nanosuit");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpObservedObject, mpObservedObject->GetName());
@@ -177,8 +181,9 @@ void OGL::ModelTZDoubleSpinBoxChanged(double value)
 
 void OGL::resizeEvent(QResizeEvent *event)
 {
-    ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height, this->width(), parameter_height);
-    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height);
+    ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height - reset_height, this->width(), parameter_height);
+    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height - reset_height);
+    ui->Reset_PB->setGeometry(0, this->height() - reset_height, reset_width, reset_height);
 }
 
 void OGL::SetLabelMatrix(QLabel *label, float matrix[])
@@ -222,6 +227,8 @@ void OGL::InitConnect()
     connect(ui->Model_TX_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTXDoubleSpinBoxChanged(double)));
     connect(ui->Model_TY_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTYDoubleSpinBoxChanged(double)));
     connect(ui->Model_TZ_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTZDoubleSpinBoxChanged(double)));
+    
+    connect(ui->Reset_PB, SIGNAL(clicked()), this, SLOT(ResetPushButtonClicked()));
 }
 
 void OGL::UnitConnect()
@@ -241,6 +248,8 @@ void OGL::UnitConnect()
     disconnect(ui->Model_TX_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTXDoubleSpinBoxChanged(double)));
     disconnect(ui->Model_TY_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTYDoubleSpinBoxChanged(double)));
     disconnect(ui->Model_TZ_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTZDoubleSpinBoxChanged(double)));
+
+    disconnect(ui->Reset_PB, SIGNAL(clicked()), this, SLOT(ResetPushButtonClicked()));
 }
 
 void OGL::SetLayoutParameter()
@@ -390,4 +399,20 @@ void OGL::updateObservedMatrix(){
 
     Darker::Matrix4<float> m = matrix.Transpose();
     mpObservedObject->SetModelMatrix(m.Data());
+}
+
+void OGL::ResetPushButtonClicked(){
+    
+    CameraAngleXDoubleSpinBoxChanged(0.0);
+    CameraAngleYDoubleSpinBoxChanged(0.0);
+    CameraAngleZDoubleSpinBoxChanged(0.0);
+    CameraTXDoubleSpinBoxChanged(0.0);
+    CameraTYDoubleSpinBoxChanged(0.0);
+    CameraTZDoubleSpinBoxChanged(0.0);
+    ModelAngleXDoubleSpinBoxChanged(0.0);
+    ModelAngleYDoubleSpinBoxChanged(0.0);
+    ModelAngleZDoubleSpinBoxChanged(0.0);
+    ModelTXDoubleSpinBoxChanged(0.0);
+    ModelTYDoubleSpinBoxChanged(0.0);
+    ModelTZDoubleSpinBoxChanged(0.0);
 }
