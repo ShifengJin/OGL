@@ -181,9 +181,9 @@ void OGL::ModelTZDoubleSpinBoxChanged(double value)
 
 void OGL::resizeEvent(QResizeEvent *event)
 {
-    ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height - reset_height, this->width(), parameter_height);
-    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height - reset_height);
-    ui->Reset_PB->setGeometry(0, this->height() - reset_height, reset_width, reset_height);
+    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height - reset_height - 3*row_offset);
+    ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height - reset_height - 2*row_offset, this->width(), parameter_height);
+    ui->Reset_PB->setGeometry(0, this->height() - reset_height - row_offset, reset_width, reset_height);
 }
 
 void OGL::SetLabelMatrix(QLabel *label, float matrix[])
@@ -415,4 +415,17 @@ void OGL::ResetPushButtonClicked(){
     ModelTXDoubleSpinBoxChanged(0.0);
     ModelTYDoubleSpinBoxChanged(0.0);
     ModelTZDoubleSpinBoxChanged(0.0);
+    
+    ui->Camera_AngleX_DoubleSpinBox->setValue(0.0);
+    ui->Camera_AngleY_DoubleSpinBox->setValue(0.0);
+    ui->Camera_AngleZ_DoubleSpinBox->setValue(0.0);
+    ui->Camera_TX_DoubleSpinBox->setValue(0.0);
+    ui->Camera_TY_DoubleSpinBox->setValue(0.0);
+    ui->Camera_TZ_DoubleSpinBox->setValue(0.0);
+    ui->Model_AngleX_DoubleSpinBox->setValue(0.0);
+    ui->Model_AngleY_DoubleSpinBox->setValue(0.0);
+    ui->Model_AngleZ_DoubleSpinBox->setValue(0.0);
+    ui->Model_TX_DoubleSpinBox->setValue(0.0);
+    ui->Model_TY_DoubleSpinBox->setValue(0.0);
+    ui->Model_TZ_DoubleSpinBox->setValue(0.0);
 }

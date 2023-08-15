@@ -79,6 +79,7 @@ private:
     int parameter_height = 0;
     int reset_width = 0;
     int reset_height = 0;
+    int row_offset = 4;
 
 private:
     Ui_OGL* ui;
