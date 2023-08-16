@@ -54,6 +54,34 @@ public:
 		computeProjectMatrix();
 	}
 
+    void SetCameraInner(float near, float far, float fov){
+		m_near = near;
+		m_far = far;
+		m_fov = fov;
+		m_cx = m_width * 0.5f;
+		m_cy = m_height * 0.5f;
+		m_fx = m_height * 0.5f / tanf(m_fov * 0.5f * ANG2RAD);
+        m_fy = m_cx;
+		computeProjectMatrix();
+	}
+
+    void SetCameraInnerFov(float fov){
+		m_fov = fov;
+		m_fx = m_height * 0.5f / tanf(m_fov * 0.5f * ANG2RAD);
+        m_fy = m_cx;
+		computeProjectMatrix();
+	}
+
+    void SetCameraInnerNear(float near){
+		m_near = near;
+		computeProjectMatrix();
+	}
+
+    void SetCameraInnerFar(float far){
+		m_far = far;
+		computeProjectMatrix();
+	}
+	
     float m_near;
     float m_far;
     float m_cx, m_cy;

@@ -29,6 +29,10 @@ public slots:
     void ModelTYDoubleSpinBoxChanged(double value);
     void ModelTZDoubleSpinBoxChanged(double value);
 
+    void ProjectFovDoubleSpinBoxChanged(double value);
+    void ProjectNearDoubleSpinBoxChanged(double value);
+    void ProjectFarDoubleSpinBoxChanged(double value);
+
     void ResetPushButtonClicked();
 
 public:
@@ -77,9 +81,6 @@ private:
 private:
     int parameter_width = 0;
     int parameter_height = 0;
-    int reset_width = 0;
-    int reset_height = 0;
-    int row_offset = 4;
 
 private:
     Ui_OGL* ui;

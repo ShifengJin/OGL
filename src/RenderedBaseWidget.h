@@ -26,6 +26,10 @@ public:
         mRenderedObjectsMutex.unlock();
     }
 
+    CameraInner::ptr GetCameraInner(){
+        return mpCameraInner;
+    }
+
 protected:
     virtual void initializeGL() override;
     virtual void resizeGL(int w, int h) override;

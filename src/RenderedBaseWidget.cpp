@@ -6,7 +6,7 @@
 RenderedBaseWidget::RenderedBaseWidget(QWidget *parent)
     :QOpenGLWidget(parent)
 {
-    mpCameraInner = CameraInner::ptr(new CameraInner(0.1f, 1000.0f, 320.f, 240.f, 60.f, 640, 480));
+    mpCameraInner = CameraInner::ptr(new CameraInner(0.1f, 100.0f, 320.f, 240.f, 60.f, 640, 480));
 }
 
 RenderedBaseWidget::~RenderedBaseWidget(){
@@ -35,7 +35,7 @@ bool RenderedBaseWidget::AddTarget(RenderedObject::ptr object, std::string name)
     mRenderedObjectsMutex.unlock();
     return ans;
 }
-    
+
 bool RenderedBaseWidget::RemoveTarget(RenderedObject::ptr object){
     bool ans = false;
     mRenderedObjectsMutex.lock();

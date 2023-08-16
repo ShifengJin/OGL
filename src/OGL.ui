@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1282</width>
-    <height>999</height>
+    <width>1280</width>
+    <height>1086</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
       <x>0</x>
       <y>490</y>
       <width>1280</width>
-      <height>440</height>
+      <height>591</height>
      </rect>
     </property>
     <property name="title">
@@ -44,7 +44,7 @@
       <rect>
        <x>0</x>
        <y>220</y>
-       <width>180</width>
+       <width>1281</width>
        <height>220</height>
       </rect>
      </property>
@@ -216,13 +216,143 @@
        <double>100.000000000000000</double>
       </property>
      </widget>
+     <widget class="QLabel" name="ModelMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ModelMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelAngleXMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>80</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelAngleYMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleYMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelAngleZMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>1080</x>
+        <y>80</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelTMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelAngleYMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>860</x>
+        <y>80</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>80</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelAngleZMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>1130</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleZMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelTMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>80</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ModelAngleXMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleXMatrix</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QGroupBox" name="CameraParam_GroupBox">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>180</width>
+       <width>1281</width>
        <height>220</height>
       </rect>
      </property>
@@ -394,289 +524,267 @@
        <double>100.000000000000000</double>
       </property>
      </widget>
+     <widget class="QLabel" name="CameraMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CameraMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraTMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraTMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>70</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraAngleYMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleYMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraAngleYMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>860</x>
+        <y>70</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraAngleZMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>1080</x>
+        <y>70</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraAngleXMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>70</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraMatrix_Value_Label">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>70</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraAngleXMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleXMatrix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CameraAngleZMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>1130</x>
+        <y>30</y>
+        <width>128</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>AngleZMatrix</string>
+      </property>
+     </widget>
     </widget>
-    <widget class="QLabel" name="CameraMatrix_Label">
+    <widget class="QGroupBox" name="Project_GroupBox">
      <property name="geometry">
       <rect>
-       <x>250</x>
-       <y>20</y>
-       <width>128</width>
-       <height>32</height>
+       <x>0</x>
+       <y>440</y>
+       <width>611</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Project</string>
+     </property>
+     <widget class="QDoubleSpinBox" name="Fov_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>64</width>
+        <height>32</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Near_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>64</width>
+        <height>32</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="Far_DoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>64</width>
+        <height>32</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Fov_Label">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>30</y>
+        <width>64</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Fov</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Near_Label">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>70</y>
+        <width>64</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Near</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Far_label">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>110</y>
+        <width>64</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Far</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ProjectMatrix_Label">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>40</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ProjectMatrix_Label_2">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>40</y>
+        <width>200</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="Reset_PB">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>460</y>
+       <width>181</width>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
-      <string>CameraMatrix</string>
+      <string>Reset</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="CameraMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>60</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraAngleXMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>690</x>
-       <y>20</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>AngleXMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraAngleXMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>640</x>
-       <y>60</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraAngleYMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>910</x>
-       <y>20</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>AngleYMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraAngleZMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>1130</x>
-       <y>20</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>AngleZMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraAngleYMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>860</x>
-       <y>60</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraAngleZMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>1080</x>
-       <y>60</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraTMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>490</x>
-       <y>20</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="CameraTMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>60</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>250</x>
-       <y>250</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ModelMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelTMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>490</x>
-       <y>250</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelAngleXMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>690</x>
-       <y>250</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>AngleXMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelAngleYMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>910</x>
-       <y>250</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>AngleYMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelAngleZMatrix_Label">
-     <property name="geometry">
-      <rect>
-       <x>1130</x>
-       <y>250</y>
-       <width>128</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>AngleZMatrix</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelAngleZMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>1080</x>
-       <y>300</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelAngleXMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>640</x>
-       <y>300</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>300</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelTMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>300</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ModelAngleYMatrix_Value_Label">
-     <property name="geometry">
-      <rect>
-       <x>860</x>
-       <y>300</y>
-       <width>200</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="Reset_PB">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>940</y>
-      <width>181</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Reset</string>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>24</width>
-      <height>24</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
    </widget>
   </widget>
  </widget>

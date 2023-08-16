@@ -15,8 +15,6 @@ OGL::OGL(QWidget* parent)
     mpObservedObject = ObservedObject::ptr(new ObservedObject("../nanosuit/nanosuit.obj"));
     parameter_width = ui->Param_GroupBox->width();
     parameter_height = ui->Param_GroupBox->height();
-    reset_width = ui->Reset_PB->width();
-    reset_height = ui->Reset_PB->height();
 
     Darker::Matrix4<float> identity;
     memcpy(xCameraMatrix, identity.Data(), 16*sizeof(float));
@@ -179,11 +177,28 @@ void OGL::ModelTZDoubleSpinBoxChanged(double value)
     SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 }
 
+void OGL::ProjectFovDoubleSpinBoxChanged(double value){
+    ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->SetCameraInnerFov(value);
+    // update project matrix to label
+    SetLabelMatrix(ui->ProjectMatrix_Label, ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->m_projectMatrix);
+}
+    
+void OGL::ProjectNearDoubleSpinBoxChanged(double value){
+    ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->SetCameraInnerNear(value);
+    // update project matrix to label
+    SetLabelMatrix(ui->ProjectMatrix_Label, ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->m_projectMatrix);
+}
+    
+void OGL::ProjectFarDoubleSpinBoxChanged(double value){
+    ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->SetCameraInnerFar(value);
+    // update project matrix to label
+    SetLabelMatrix(ui->ProjectMatrix_Label, ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->m_projectMatrix);
+}
+
 void OGL::resizeEvent(QResizeEvent *event)
 {
-    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height - reset_height - 3*row_offset);
-    ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height - reset_height - 2*row_offset, this->width(), parameter_height);
-    ui->Reset_PB->setGeometry(0, this->height() - reset_height - row_offset, reset_width, reset_height);
+    ui->openGLWidget->setGeometry(0, 0, this->width(), this->height() - parameter_height);
+    ui->Param_GroupBox->setGeometry(0, this->height() - parameter_height, this->width(), parameter_height);
 }
 
 void OGL::SetLabelMatrix(QLabel *label, float matrix[])
@@ -228,6 +243,10 @@ void OGL::InitConnect()
     connect(ui->Model_TY_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTYDoubleSpinBoxChanged(double)));
     connect(ui->Model_TZ_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTZDoubleSpinBoxChanged(double)));
     
+    connect(ui->Fov_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ProjectFovDoubleSpinBoxChanged(double)));
+    connect(ui->Near_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ProjectNearDoubleSpinBoxChanged(double)));
+    connect(ui->Far_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ProjectFarDoubleSpinBoxChanged(double)));
+
     connect(ui->Reset_PB, SIGNAL(clicked()), this, SLOT(ResetPushButtonClicked()));
 }
 
@@ -248,6 +267,10 @@ void OGL::UnitConnect()
     disconnect(ui->Model_TX_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTXDoubleSpinBoxChanged(double)));
     disconnect(ui->Model_TY_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTYDoubleSpinBoxChanged(double)));
     disconnect(ui->Model_TZ_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ModelTZDoubleSpinBoxChanged(double)));
+
+    disconnect(ui->Fov_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ProjectFovDoubleSpinBoxChanged(double)));
+    disconnect(ui->Near_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ProjectNearDoubleSpinBoxChanged(double)));
+    disconnect(ui->Far_DoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(ProjectFarDoubleSpinBoxChanged(double)));
 
     disconnect(ui->Reset_PB, SIGNAL(clicked()), this, SLOT(ResetPushButtonClicked()));
 }
@@ -293,6 +316,21 @@ void OGL::SetLayoutParameter()
     ui->Model_TZ_DoubleSpinBox->setMinimum(-100.);
     ui->Model_TZ_DoubleSpinBox->setMaximum(100.);
     ui->Model_TZ_DoubleSpinBox->setSingleStep(1.);
+
+    ui->Fov_DoubleSpinBox->setMinimum(30.);
+    ui->Fov_DoubleSpinBox->setMaximum(120.);
+    ui->Fov_DoubleSpinBox->setSingleStep(1.);
+    ui->Fov_DoubleSpinBox->setValue(60.0);
+
+    ui->Near_DoubleSpinBox->setMinimum(0.1);
+    ui->Near_DoubleSpinBox->setMaximum(3.0);
+    ui->Near_DoubleSpinBox->setSingleStep(0.1);
+    ui->Near_DoubleSpinBox->setValue(0.1);
+
+    ui->Far_DoubleSpinBox->setMinimum(3.0);
+    ui->Far_DoubleSpinBox->setMaximum(1000.);
+    ui->Far_DoubleSpinBox->setSingleStep(1.);
+    ui->Far_DoubleSpinBox->setValue(100.);
 }
 
 void OGL::updateXCameraAngle(float xCameraAngle){
@@ -343,7 +381,6 @@ void OGL::updateCameraMatrix(){
     Darker::Matrix4<float> camMatrix;
     camMatrix = matrix.Transpose();
     mpCameraSimple->SetModelMatrix(camMatrix.Data());
-
 }
 
 void OGL::updateCameraViewMatrix(){
