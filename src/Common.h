@@ -82,6 +82,14 @@ public:
 		computeProjectMatrix();
 	}
 	
+    void GetProjectFormula(std::string& formula){
+		formula = "2*focalx/w\t0\t\t0\t\t\t0\n" \
+		          "0\t\t2*focaly/h\t0\t\t\t0\n" \
+				  "0\t\t0\t\t-(far+near)/(far-near)\t-1\n" \
+				  "0\t\t0\t\t2*far*near/(far-near)\t0";
+
+	}
+
     float m_near;
     float m_far;
     float m_cx, m_cy;

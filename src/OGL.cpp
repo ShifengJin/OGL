@@ -43,6 +43,8 @@ OGL::OGL(QWidget* parent)
     SetLabelMatrix(ui->ModelTMatrix_Value_Label, observedTMatrix);
     SetLabelMatrix(ui->ModelMatrix_Value_Label, observedModelMatrix);
 
+    SetLabelMatrix(ui->ProjectMatrix_Label, ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->m_projectMatrix);
+
     mpCameraSimple->SetModelMatrix(cameraMatrix);
     mpCameraSimple->SetName("Camera");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
@@ -51,6 +53,10 @@ OGL::OGL(QWidget* parent)
     mpObservedObject->SetName("nanosuit");
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpObservedObject, mpObservedObject->GetName());
     InitConnect();
+
+    std::string projectFormula;
+    ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->GetProjectFormula(projectFormula);
+    ui->ProjectMatrix_Formula_Label->setText(QString::fromLocal8Bit(projectFormula.c_str()));
 }
 
 OGL::~OGL()
@@ -465,4 +471,12 @@ void OGL::ResetPushButtonClicked(){
     ui->Model_TX_DoubleSpinBox->setValue(0.0);
     ui->Model_TY_DoubleSpinBox->setValue(0.0);
     ui->Model_TZ_DoubleSpinBox->setValue(0.0);
+
+    ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->SetCameraInnerFov(60.0f);
+    ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->SetCameraInnerNear(0.1f);
+    ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->SetCameraInnerFar(100.0f);
+    ui->Fov_DoubleSpinBox->setValue(60.0);
+    ui->Near_DoubleSpinBox->setValue(0.1);
+    ui->Far_DoubleSpinBox->setValue(100.0);
+    SetLabelMatrix(ui->ProjectMatrix_Label, ((RendererWidget*)(ui->openGLWidget))->GetCameraInner()->m_projectMatrix);
 }
