@@ -293,9 +293,9 @@ void CameraBase::Init(){
 		"    vec3 reflectDir = reflect(-lightDir, norm);               \n"
 		"    float spec = pow(max(dot(viewDir, reflectDir), 0.f), shininess);\n"
 		"    vec3 ambient = dirLight.ambient;                          \n"
-		"    vec3 diffuse = dirLight.diffuse;                          \n"
+		"    vec3 diffuse = dirLight.diffuse * diff;                   \n"
 		"    vec3 specular = dirLight.specular * spec;                 \n"
-        "    FragColor = vec4((ambient + diffuse + specular) + Normal, 1.f);      \n"
+        "    FragColor = vec4((ambient + diffuse + specular), 1.f);    \n"
         "}";
 
     mObjectMutex.lock();

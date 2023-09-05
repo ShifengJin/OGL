@@ -47,6 +47,18 @@ OGL::OGL(QWidget* parent)
 
     mpCameraSimple->SetModelMatrix(cameraMatrix);
     mpCameraSimple->SetName("Camera");
+    float direction[3] = {-1.f, -1.f, -1.f};
+    float ambient[3] = {0.3f, 0.3f, 0.3f};
+    float diffuse[3] = {0.3f, 0.3f, 0.3f};
+    float specular[3] = {0.5f, 0.5f, 0.5f};
+
+    mpCameraSimple->SetShininess(2.0f);
+
+    mpCameraSimple->SetDirection(direction);
+    mpCameraSimple->SetAmbient(ambient);
+    mpCameraSimple->SetDiffuse(diffuse);
+    mpCameraSimple->SetSpecular(specular);
+
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
 
     mpObservedObject->SetModelMatrix(observedModelMatrix);

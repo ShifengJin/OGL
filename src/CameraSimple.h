@@ -29,7 +29,7 @@ public:
         m_direction[1] = direction[1];
         m_direction[2] = direction[2];
     }
-
+    
     void SetAmbient(float ambient[3]){
         m_ambient[0] = ambient[0];
         m_ambient[1] = ambient[1];
