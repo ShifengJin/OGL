@@ -14,7 +14,7 @@
 class CameraBase: public RenderedObject{
 public:
     typedef std::shared_ptr<CameraBase> ptr;
-    CameraBase();
+    CameraBase(CameraInner::ptr pCameraInner);
     virtual void Init() override;
     virtual void Draw() override;
     virtual void Unit() override;
@@ -57,7 +57,7 @@ private:
     float m_specular[3];
     
     Shader* m_pShader;
-
+    CameraInner::ptr mpCameraInner;
     GLuint VAO;
     GLuint VBO;
     GLuint EBO;

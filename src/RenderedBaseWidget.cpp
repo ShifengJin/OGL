@@ -6,7 +6,6 @@
 RenderedBaseWidget::RenderedBaseWidget(QWidget *parent)
     :QOpenGLWidget(parent)
 {
-    mpCameraInner = CameraInner::ptr(new CameraInner(0.1f, 100.0f, 320.f, 240.f, 60.f, 640, 480));
 }
 
 RenderedBaseWidget::~RenderedBaseWidget(){
@@ -110,7 +109,8 @@ void RenderedBaseWidget::initializeGL(){
 }
 
 void RenderedBaseWidget::resizeGL(int w, int h){
-    mpCameraInner->SetSize(w*0.5f, h);
+    // mpCameraInner->SetSize(w*0.5f, h);
+    emit signalCameraInnerSizeChange(w*0.5f, h);
 }
 
 void RenderedBaseWidget::paintGL(){

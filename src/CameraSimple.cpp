@@ -230,7 +230,7 @@ static GLint cameraIndices[] = {
 	26, 25, 28, 25, 24
 };
 
-CameraBase::CameraBase() {
+CameraBase::CameraBase(CameraInner::ptr pCameraInner) {
     memset(m_modelMatrix, 0, 16 * sizeof(float));
     m_modelMatrix[0] = 1.f;
     m_modelMatrix[5] = 1.f;
@@ -252,6 +252,8 @@ CameraBase::CameraBase() {
     m_ambient[0] = 0.4f; m_ambient[1] = 0.4f; m_ambient[2] = 0.6f;
     m_diffuse[0] = 0.3f; m_diffuse[1] = 0.3f; m_diffuse[2] = 0.3f;
     m_specular[0] = 0.1f; m_specular[1] = 0.1f; m_specular[2] = 0.1f;
+
+	mpCameraInner = pCameraInner;
 }
 
 void CameraBase::Init(){
@@ -344,6 +346,7 @@ void CameraBase::Init(){
 
 CameraBase::~CameraBase() {
     Unit();
+	mpCameraInner.reset();
 }
 
 void CameraBase::Draw() {

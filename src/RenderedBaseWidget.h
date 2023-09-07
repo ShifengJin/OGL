@@ -26,9 +26,12 @@ public:
         mRenderedObjectsMutex.unlock();
     }
 
-    CameraInner::ptr GetCameraInner(){
-        return mpCameraInner;
+    void SetCameraInner(CameraInner::ptr pCameraInner){
+        mpCameraInner = pCameraInner;
     }
+    
+signals:
+    void signalCameraInnerSizeChange(float w, float h);
 
 protected:
     virtual void initializeGL() override;

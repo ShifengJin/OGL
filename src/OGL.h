@@ -6,6 +6,7 @@
 #include <QResizeEvent>
 #include "CameraSimple.h"
 #include "ObservedObject.h"
+#include "Common.h"
 
 class OGL : public QMainWindow {
     Q_OBJECT
@@ -34,7 +35,9 @@ public slots:
     void ProjectFarDoubleSpinBoxChanged(double value);
 
     void ResetPushButtonClicked();
-
+    
+    void ProjectSizeChanged(float w, float h);
+    
 public:
     void resizeEvent(QResizeEvent *event);
 
@@ -87,6 +90,7 @@ private:
 
     CameraBase::ptr mpCameraSimple;
     ObservedObject::ptr mpObservedObject;
+    CameraInner::ptr mpCameraInner;
 };
 
 #endif
