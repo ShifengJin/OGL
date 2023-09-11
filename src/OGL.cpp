@@ -50,21 +50,30 @@ OGL::OGL(QWidget* parent)
     mpCameraSimple->SetModelMatrix(cameraMatrix);
     mpCameraSimple->SetName("Camera");
     float direction[3] = {-1.f, -1.f, -1.f};
-    float ambient[3] = {0.3f, 0.3f, 0.3f};
-    float diffuse[3] = {0.3f, 0.3f, 0.3f};
-    float specular[3] = {0.5f, 0.5f, 0.5f};
+    float ambientCamera[3] = {0.6f, 0.6f, 0.6f};
+    float diffuseCamera[3] = {0.3f, 0.3f, 0.3f};
+    float specularCamera[3] = {0.5f, 0.5f, 0.5f};
 
     mpCameraSimple->SetShininess(2.0f);
 
     mpCameraSimple->SetDirection(direction);
-    mpCameraSimple->SetAmbient(ambient);
-    mpCameraSimple->SetDiffuse(diffuse);
-    mpCameraSimple->SetSpecular(specular);
+    mpCameraSimple->SetAmbient(ambientCamera);
+    mpCameraSimple->SetDiffuse(diffuseCamera);
+    mpCameraSimple->SetSpecular(specularCamera);
 
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpCameraSimple, mpCameraSimple->GetName());
 
     mpObservedObject->SetModelMatrix(observedModelMatrix);
     mpObservedObject->SetName("nanosuit");
+
+    float ambientObservedObject[3] = {1.8f, 1.8f, 1.8f};
+    float diffuseObservedObject[3] = {0.3f, 0.3f, 0.3f};
+    float specularObservedObject[3] = {1.5f, 1.5f, 1.5f};
+    mpObservedObject->SetShininess(2.0f);
+    mpObservedObject->SetDirection(direction);
+    mpObservedObject->SetAmbient(ambientObservedObject);
+    mpObservedObject->SetDiffuse(diffuseObservedObject);
+    mpObservedObject->SetSpecular(specularObservedObject);
     ((RendererWidget*)(ui->openGLWidget))->AddTarget(mpObservedObject, mpObservedObject->GetName());
     InitConnect();
 
